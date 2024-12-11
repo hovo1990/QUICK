@@ -6,6 +6,7 @@ lib/
 obj/
 test/runs/
 src/config.h
+src_build/
 debug.*
 *.out
 *.a

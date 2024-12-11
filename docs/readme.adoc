@@ -9,9 +9,15 @@ docker buildx build -t quick .
 docker run -it --gpus all quick /bin/bash
 
 
-cmake .. -DCOMPILER=GNU -DCMAKE_INSTALL_PREFIX=$(pwd)/../install -DCUDA=TRUE -DMPI=TRUE
+mkdir src_build
 
-make -j8 install
+cd src_build
+
+cmake .. -DCOMPILER=GNU -DCMAKE_INSTALL_PREFIX=$(pwd)/../install -DCUDA=TRUE -DMPI=TRUE -DCMAKE_BUILD_TYPE=Debug
+
+make -j16 install
+
+
 ----
 
 
