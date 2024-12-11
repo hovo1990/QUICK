@@ -12,6 +12,10 @@ RUN apt-get update -y \
     openmpi-bin \
     openmpi-common \
     libopenmpi-dev \
-    bash
+    bash \
+    python3 \
+    python3-pip
+
+RUN pip3 install fortls
 
 
