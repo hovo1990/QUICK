@@ -19,7 +19,7 @@ RUN apt-get update -y \
     python3 \
     python3-pip
 
-RUN pip3 install fortls
+RUN pip3 install fortls fprettify
 
 
 # Create a new user
