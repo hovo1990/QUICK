@@ -790,6 +790,10 @@ contains
            if(write_molden) quick_molden%e_snapshots(jscf, quick_molden%iexport_snapshot) &
                             = quick_qm_struct%Eel+quick_qm_struct%Ecore 
  
+           if(write_qcschema) quick_qschema%e_snapshots(jscf, quick_qcschema%iexport_snapshot) &
+                            = quick_qm_struct%Eel+quick_qm_struct%Ecore 
+
+
            flush(ioutfile)
   
         endif

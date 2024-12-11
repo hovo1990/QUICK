@@ -7,4 +7,9 @@ docker buildx build -t quick .
 
 
 docker run -it --gpus all quick /bin/bash
+
+
+cmake .. -DCOMPILER=GNU -DCMAKE_INSTALL_PREFIX=$(pwd)/../install -DCUDA=TRUE -DMPI=TRUE
+
+make -j8 install
 ----
