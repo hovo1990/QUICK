@@ -8,9 +8,11 @@ RUN apt-get update -y \
     gfortran \
     cmake \
     g++ \
+    git \
     openmpi-bin \
     openmpi-common \
     libopenmpi-dev
+
 
 RUN mkdir /src \
  && mkdir /src/build
@@ -24,7 +26,7 @@ WORKDIR /src/build
 
 RUN cmake .. -DCOMPILER=GNU -DCMAKE_INSTALL_PREFIX=$(pwd)/../install -DCUDA=TRUE -DMPI=TRUE
 
-RUN make -j2 install
+RUN make -j8 install
 
 #############################
 ## Runtime MPI CUDA 12.0.1 ##
