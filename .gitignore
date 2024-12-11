@@ -1,5 +1,6 @@
 DEBUG
 build/
+install/
 bin/
 lib/
 obj/

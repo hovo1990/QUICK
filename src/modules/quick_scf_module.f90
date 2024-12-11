@@ -162,6 +162,7 @@ contains
      use quick_scf_operator_module, only: scf_operator
      use quick_oei_module, only: bCalc1e 
      use quick_lri_module, only: computeLRI
+     use quick_molden_module, only: quick_molden
      use quick_qcschema_module, only: quick_qcschema
 
 #ifdef CEW 
@@ -787,13 +788,13 @@ contains
               write(ioutfile, '("| -------------- 2E-INT CUTOFF CHANGE TO ", E10.4, " ------------")') quick_method%integralCutoff
            endif
  
-         !   if(write_molden) quick_molden%e_snapshots(jscf, quick_molden%iexport_snapshot) &
-         !                    = quick_qm_struct%Eel+quick_qm_struct%Ecore 
+           if(write_molden) quick_molden%e_snapshots(jscf, quick_molden%iexport_snapshot) &
+                            = quick_qm_struct%Eel+quick_qm_struct%Ecore 
  
-         !   if(write_qcschema) quick_qschema%e_snapshots(jscf, quick_qcschema%iexport_snapshot) &
-         !                    = quick_qm_struct%Eel+quick_qm_struct%Ecore 
-
-
+           if(write_qcschema) quick_qcschema%e_snapshots(jscf, quick_qcschema%iexport_snapshot) &
+                            = quick_qm_struct%Eel+quick_qm_struct%Ecore 
+ 
+                           
            flush(ioutfile)
   
         endif
