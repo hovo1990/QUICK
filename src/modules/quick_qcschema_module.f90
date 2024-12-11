@@ -334,7 +334,7 @@ end subroutine write_opt
 
 subroutine initialize_qcschema(self, ierr)
     
-    use quick_files_module, only : iQCSchemaFile, moldenFileName
+    use quick_files_module, only : iQCSchemaFile, qcSchemaFileName
     use quick_method_module, only: quick_method
     use quick_molspec_module, only: natom, quick_molspec
     use quick_constants_module, only : symbol
@@ -366,9 +366,9 @@ subroutine initialize_qcschema(self, ierr)
     end do
 
     ! open file
-    call quick_open(self%iQCSchemaFile,moldenFileName,'U','F','R',.false.,ierr)
+    call quick_open(self%iQCSchemaFile,qcSchemaFileName,'U','F','R',.false.,ierr)
 
-    write(self%iQCSchemaFile, '("[Molden Format]")')
+    write(self%iQCSchemaFile, '("[QCSchema Format]")')
 
 end subroutine initialize_qcschema
 

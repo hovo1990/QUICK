@@ -35,7 +35,7 @@
     use quick_sad_guess_module, only: getSadGuess
     use quick_molden_module, only : quick_molden, initializeExport, exportCoordinates, exportBasis, &
          exportMO, exportSCF, exportOPT
-    use quick_qcschema_module, only : quick_schema, initializeExportQC, exportCoordinatesQC, exportBasisQC, &
+    use quick_qcschema_module, only : quick_qcschema, initializeExportQC, exportCoordinatesQC, exportBasisQC, &
          exportMOQC, exportSCFQC, exportOPTQC
 #ifdef MPIV
     use mpi

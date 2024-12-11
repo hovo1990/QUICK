@@ -37,6 +37,7 @@ module quick_files_module
     character(len=80) :: dataFileName   = ''
     character(len=80) :: intFileName    = ''
     character(len=80) :: moldenFileName = ''
+    character(len=80) :: qcSchemaFileName = ''
 
     ! Basis set and directory
     character(len=240) :: basisDir       = ''
@@ -125,6 +126,7 @@ module quick_files_module
         dataFileName=inFileName(1:i-1)//'.dat'
         intFileName=inFileName(1:i-1)//'.int'
         moldenFileName=inFileName(1:i-1)//'.molden'
+        qcSchemaFileName=inFileName(1:i-1)//'.json'
 
         return
 

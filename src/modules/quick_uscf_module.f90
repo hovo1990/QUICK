@@ -118,10 +118,10 @@ contains
      endif  
 
       if(write_qcschema) then
-         call exportMO(quick_qcschema, ierr)
+         call exportMOQC(quick_qcschema, ierr)
          if(.not.quick_method%opt) then
              quick_qcschema%iexport_snapshot=quick_qcschema%iexport_snapshot+1
-             call exportSCF(quick_qcschema, ierr)
+             call exportSCFQC(quick_qcschema, ierr)
          endif
      endif  
 
