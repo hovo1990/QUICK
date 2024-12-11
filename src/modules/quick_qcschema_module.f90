@@ -1,5 +1,5 @@
 !---------------------------------------------------------------------!
-! Created by Hovakim Grabslo on 12/08/2022                            !
+! Created by Hovakim Grabski on 12/08/2024                            !
 !                                                                     !
 ! Copyright (C) 2020-2021 Merz lab                                    !
 ! Copyright (C) 2020-2021 Götz lab                                    !
@@ -11,17 +11,17 @@
 
 #include "util.fh"
 
-module quick_molden_module
+module quick_qcschema_module
 
     implicit none
     private
 
-    public :: quick_molden
+    public :: quick_qcschema
     public :: initializeExport, finalizeExport, exportCoordinates, exportBasis, exportMO, &
               exportSCF, exportOPT
 
-    type quick_molden_type
-      integer :: iMoldenFile
+    type quick_qcschema_type
+      integer :: iQCSchemaFile
 
       ! true if this a geometry optimization
       logical :: opt
@@ -47,16 +47,16 @@ module quick_molden_module
       ! temporary vector for reorganizing mo coefficients
       double precision, dimension(:), allocatable :: reord_mo_vec
 
-    end type quick_molden_type
+    end type quick_qcschema_type
 
-    type (quick_molden_type),save:: quick_molden
+    type (quick_qcschema_type),save:: quick_qcschema
 
     interface initializeExport
-        module procedure initialize_molden
+        module procedure initialize_qcschema
     end interface initializeExport
 
     interface finalizeExport
-        module procedure finalize_molden
+        module procedure finalize_qcschema
     end interface finalizeExport
 
     interface exportCoordinates
@@ -86,25 +86,25 @@ subroutine write_coordinates(self, ierr)
     use quick_molspec_module, only: quick_molspec, xyz, natom
     use quick_constants_module, only : symbol, BOHRS_TO_A
     implicit none
-    type (quick_molden_type), intent(in) :: self
+    type (quick_qcschema_type), intent(in) :: self
     integer, intent(out) :: ierr
     integer :: i, j, k
 
     ! write atomic labels and coordinates
-    write(self%iMoldenFile, '("[Atoms] (AU)")')
+    write(self%iQCSchemaFile, '("[Atoms] (AU)")')
     do i=1,natom
-        write(self%iMoldenFile,'(2x,A2,4x,I5,4x,I3)',advance='no') &
+        write(self%iQCSchemaFile,'(2x,A2,4x,I5,4x,I3)',advance='no') &
              symbol(quick_molspec%iattype(i)), i, quick_molspec%iattype(i)
         if (self%opt) then
            ! in case of geometry optimization write last stored geometry
            ! we need to do this because optimizers may return the geometry
            ! for the next step which may be stored in xyz
            k = self%iexport_snapshot - 1
-           write(self%iMoldenFile, '(3(2x,F20.10))') (self%xyz_snapshots(j,i,k),j=1,3)
+           write(self%iQCSchemaFile, '(3(2x,F20.10))') (self%xyz_snapshots(j,i,k),j=1,3)
          else
            ! if it's a single point calculation we can use xyz
            ! we can't use xyz_snapshots because they have not been populated
-           write(self%iMoldenFile, '(3(2x,F20.10))') (xyz(j,i),j=1,3)
+           write(self%iQCSchemaFile, '(3(2x,F20.10))') (xyz(j,i),j=1,3)
         endif
     enddo
 
@@ -115,26 +115,26 @@ subroutine write_basis_info(self, ierr)
     use quick_basis_module, only: quick_basis, nshell, nbasis, ncontract
     use quick_molspec_module, only: natom
     implicit none
-    type (quick_molden_type), intent(in) :: self
+    type (quick_qcschema_type), intent(in) :: self
     integer, intent(out) :: ierr
     integer :: iatom, ishell, ibas, iprim, nprim, j, ishell_idx
     logical :: print_gto
     double precision :: val_gccoeff, xnorm
 
     ! write basis function information
-    write(self%iMoldenFile, '("[GTO] (AU)")')
+    write(self%iQCSchemaFile, '("[GTO] (AU)")')
     do iatom=1, natom
-        write(self%iMoldenFile, '(2x, I5)') iatom
+        write(self%iQCSchemaFile, '(2x, I5)') iatom
 
         ! s basis functions
         do ishell=1, nshell
             if(quick_basis%katom(ishell) .eq. iatom) then
                 nprim = quick_basis%kprim(ishell)
                 if(quick_basis%ktype(ishell) .eq. 1) then
-                    write(self%iMoldenFile, '(2x, "s", 4x, I2)') nprim
+                    write(self%iQCSchemaFile, '(2x, "s", 4x, I2)') nprim
                     do iprim=1, nprim
                         ishell_idx=quick_basis%ksumtype(ishell)
-                        write(self%iMoldenFile, '(2E20.10)') &
+                        write(self%iQCSchemaFile, '(2E20.10)') &
                         quick_basis%gcexpo(iprim,ishell_idx), quick_basis%unnorm_gccoeff(iprim,ishell_idx) 
                     enddo                    
                 endif
@@ -146,16 +146,16 @@ subroutine write_basis_info(self, ierr)
             if(quick_basis%katom(ishell) .eq. iatom) then
                 nprim = quick_basis%kprim(ishell)
                 if(quick_basis%ktype(ishell) .eq. 4) then
-                    write(self%iMoldenFile, '(2x, "s", 4x, I2)') nprim
+                    write(self%iQCSchemaFile, '(2x, "s", 4x, I2)') nprim
                     do iprim=1, nprim
                         ishell_idx=quick_basis%ksumtype(ishell)
-                        write(self%iMoldenFile, '(2E20.10)') &
+                        write(self%iQCSchemaFile, '(2E20.10)') &
                         quick_basis%gcexpo(iprim,ishell_idx), quick_basis%unnorm_gccoeff(iprim,ishell_idx)
                     enddo
-                    write(self%iMoldenFile, '(2x, "p", 4x, I2)') nprim
+                    write(self%iQCSchemaFile, '(2x, "p", 4x, I2)') nprim
                     do iprim=1, nprim
                         ishell_idx=quick_basis%ksumtype(ishell)
-                        write(self%iMoldenFile, '(2E20.10)') &
+                        write(self%iQCSchemaFile, '(2E20.10)') &
                         quick_basis%gcexpo(iprim,ishell_idx), (quick_basis%unnorm_gccoeff(iprim,ishell_idx+1))
                     enddo
                 endif
@@ -169,26 +169,26 @@ subroutine write_basis_info(self, ierr)
                 print_gto=.false.
                 if(quick_basis%ktype(ishell) .eq. 3) then
                     print_gto=.true.
-                    write(self%iMoldenFile, '(2x, "p", 4x, I2)') nprim
+                    write(self%iQCSchemaFile, '(2x, "p", 4x, I2)') nprim
                 elseif(quick_basis%ktype(ishell) .eq. 6) then
                     print_gto=.true.
-                    write(self%iMoldenFile, '(2x, "d", 4x, I2)') nprim
+                    write(self%iQCSchemaFile, '(2x, "d", 4x, I2)') nprim
                 elseif(quick_basis%ktype(ishell) .eq. 10) then
                     print_gto=.true.
-                    write(self%iMoldenFile, '(2x, "f", 4x, I2)') nprim
+                    write(self%iQCSchemaFile, '(2x, "f", 4x, I2)') nprim
                 endif
                 
                 do iprim=1, nprim
                     if(print_gto) then
                         ishell_idx=quick_basis%ksumtype(ishell)
-                        write(self%iMoldenFile, '(2E20.10)') &
+                        write(self%iQCSchemaFile, '(2E20.10)') &
                         quick_basis%gcexpo(iprim,ishell_idx), quick_basis%unnorm_gccoeff(iprim,ishell_idx)
                     endif
                 enddo
             endif
         enddo
 
-        write(self%iMoldenFile, '("")')
+        write(self%iQCSchemaFile, '("")')
     enddo
 
 end subroutine write_basis_info
@@ -201,7 +201,7 @@ subroutine write_mo(self, ierr)
     use quick_molspec_module, only: quick_molspec
     use quick_method_module, only: quick_method
     implicit none
-    type (quick_molden_type), intent(inout) :: self
+    type (quick_qcschema_type), intent(inout) :: self
     integer, intent(out) :: ierr    
     integer :: i, j, k, neleca, nelecb
     character(len=5) :: lbl1
@@ -209,7 +209,7 @@ subroutine write_mo(self, ierr)
 
     if(.not. allocated(self%reord_mo_vec)) allocate(self%reord_mo_vec(nbasis))
 
-    write(self%iMoldenFile, '("[MO]")')
+    write(self%iQCSchemaFile, '("[MO]")')
 
     if(.not.quick_method%unrst) then
         neleca = quick_molspec%nElec/2
@@ -229,19 +229,19 @@ subroutine write_mo(self, ierr)
         endif
 
         write(lbl1,'(I5)') i
-        write(self%iMoldenFile, '(A11)') "  Sym= a"//trim(adjustl(lbl1))
-        write(self%iMoldenFile, '("  Ene= ", E20.10)') quick_qm_struct%E(i)
-        write(self%iMoldenFile, '(2x, "Spin= Alpha" )') 
+        write(self%iQCSchemaFile, '(A11)') "  Sym= a"//trim(adjustl(lbl1))
+        write(self%iQCSchemaFile, '("  Ene= ", E20.10)') quick_qm_struct%E(i)
+        write(self%iQCSchemaFile, '(2x, "Spin= Alpha" )') 
 
         ! write orbital occupation numbers
-        write(self%iMoldenFile, '("  Occup= ", F10.8)') occnum 
+        write(self%iQCSchemaFile, '("  Occup= ", F10.8)') occnum 
 
         ! reorder molecular orbital coefficients        
          call reorder_mo_coeffs(quick_qm_struct%co, quick_basis%KLMN, nbasis, i, self%reord_mo_vec, ierr)
 
         ! write molecular orbital coefficients  
         do j=1, nbasis
-            write(self%iMoldenFile, '(I4,F15.10)') j, self%reord_mo_vec(j)
+            write(self%iQCSchemaFile, '(I4,F15.10)') j, self%reord_mo_vec(j)
         enddo
     enddo
 
@@ -255,19 +255,19 @@ subroutine write_mo(self, ierr)
             endif
     
             write(lbl1,'(I5)') i
-            write(self%iMoldenFile, '(A11)') "  Sym= b"//trim(adjustl(lbl1))
-            write(self%iMoldenFile, '("  Ene= ",E20.10)') quick_qm_struct%Eb(i)
-            write(self%iMoldenFile, '(2x, "Spin= Beta" )')
+            write(self%iQCSchemaFile, '(A11)') "  Sym= b"//trim(adjustl(lbl1))
+            write(self%iQCSchemaFile, '("  Ene= ",E20.10)') quick_qm_struct%Eb(i)
+            write(self%iQCSchemaFile, '(2x, "Spin= Beta" )')
     
             ! write orbital occupation numbers
-            write(self%iMoldenFile, '("  Occup= ", F10.8)') occnum
+            write(self%iQCSchemaFile, '("  Occup= ", F10.8)') occnum
 
             ! reorder molecular orbital coefficients        
             call reorder_mo_coeffs(quick_qm_struct%cob, quick_basis%KLMN, nbasis, i, self%reord_mo_vec, ierr)
     
             ! write molecular orbital coefficients        
             do j=1, nbasis
-                write(self%iMoldenFile, '(I4,F15.10)') j, self%reord_mo_vec(j)
+                write(self%iQCSchemaFile, '(I4,F15.10)') j, self%reord_mo_vec(j)
             enddo
         enddo
     endif
@@ -279,12 +279,12 @@ end subroutine write_mo
 subroutine write_scf(self, ierr)
 
     implicit none
-    type (quick_molden_type), intent(inout) :: self
+    type (quick_qcschema_type), intent(inout) :: self
     integer, intent(out) :: ierr
     integer :: i, j
     character(len=9) :: label
 
-    write(self%iMoldenFile, '("[SCFCONV]")')
+    write(self%iQCSchemaFile, '("[SCFCONV]")')
 
     do i=1, self%iexport_snapshot-1
        if (i == 1) then
@@ -294,9 +294,9 @@ subroutine write_scf(self, ierr)
        else
           label = "scf"
        end if
-       write(self%iMoldenFile, '(2x, a, 2x, I3, 2x, "THROUGH", 2x, I3)') trim(label), 1, self%nscf_snapshots(i)
+       write(self%iQCSchemaFile, '(2x, a, 2x, I3, 2x, "THROUGH", 2x, I3)') trim(label), 1, self%nscf_snapshots(i)
         do j=1, self%nscf_snapshots(i)
-            write(self%iMoldenFile, '(2x, E16.10)') self%e_snapshots(j,i)
+            write(self%iQCSchemaFile, '(2x, E16.10)') self%e_snapshots(j,i)
         enddo
     enddo
 
@@ -306,44 +306,44 @@ subroutine write_opt(self, ierr)
 
     use quick_constants_module, only : BOHRS_TO_A
     implicit none
-    type (quick_molden_type), intent(inout) :: self
+    type (quick_qcschema_type), intent(inout) :: self
     integer, intent(out) :: ierr
     integer :: i, j, k
     character(len=8) :: lbl1
     character(len=2) :: lbl2
 
-    write(self%iMoldenFile, '("[GEOCONV]")')
+    write(self%iQCSchemaFile, '("[GEOCONV]")')
 
-    write(self%iMoldenFile, '("energy")')
+    write(self%iQCSchemaFile, '("energy")')
     do i=1, self%iexport_snapshot-1
-        write(self%iMoldenFile, '(2x, E16.10)') self%e_snapshots(self%nscf_snapshots(i),i)
+        write(self%iQCSchemaFile, '(2x, E16.10)') self%e_snapshots(self%nscf_snapshots(i),i)
     enddo
 
-    write(self%iMoldenFile, '("[GEOMETRIES] (XYZ)")')
+    write(self%iQCSchemaFile, '("[GEOMETRIES] (XYZ)")')
 
     do k=1, self%iexport_snapshot-1
-       write(self%iMoldenFile, '(2x, I5)') self%natom
-       write(self%iMoldenFile, '("")')
+       write(self%iQCSchemaFile, '(2x, I5)') self%natom
+       write(self%iQCSchemaFile, '("")')
         do i=1,self%natom
-           write(self%iMoldenFile,'(A2, 2x, 3F14.6)') &
+           write(self%iQCSchemaFile,'(A2, 2x, 3F14.6)') &
                 self%atom_symbol(i), (self%xyz_snapshots(j,i,k)*BOHRS_TO_A,j=1,3)
         enddo    
     enddo
 
 end subroutine write_opt
 
-subroutine initialize_molden(self, ierr)
+subroutine initialize_qcschema(self, ierr)
     
-    use quick_files_module, only : iMoldenFile, moldenFileName
+    use quick_files_module, only : iQCSchemaFile, moldenFileName
     use quick_method_module, only: quick_method
     use quick_molspec_module, only: natom, quick_molspec
     use quick_constants_module, only : symbol
     implicit none
-    type (quick_molden_type), intent(inout) :: self
+    type (quick_qcschema_type), intent(inout) :: self
     integer, intent(out) :: ierr
     integer :: i, dimy
 
-    self%iMoldenFile = iMoldenFile
+    self%iQCSchemaFile = iQCSchemaFile
     self%iexport_snapshot=1
     self%natom = natom
     dimy = 1
@@ -366,16 +366,16 @@ subroutine initialize_molden(self, ierr)
     end do
 
     ! open file
-    call quick_open(self%iMoldenFile,moldenFileName,'U','F','R',.false.,ierr)
+    call quick_open(self%iQCSchemaFile,moldenFileName,'U','F','R',.false.,ierr)
 
-    write(self%iMoldenFile, '("[Molden Format]")')
+    write(self%iQCSchemaFile, '("[Molden Format]")')
 
-end subroutine initialize_molden
+end subroutine initialize_qcschema
 
-subroutine finalize_molden(self, ierr)
+subroutine finalize_qcschema(self, ierr)
 
     implicit none
-    type (quick_molden_type), intent(inout) :: self
+    type (quick_qcschema_type), intent(inout) :: self
     integer, intent(out) :: ierr
 
     ! deallocate memory
@@ -385,9 +385,9 @@ subroutine finalize_molden(self, ierr)
     if(allocated(self%xyz_snapshots)) deallocate(self%xyz_snapshots)
 
     ! close file
-    close(self%iMoldenFile)
+    close(self%iQCSchemaFile)
 
-end subroutine finalize_molden
+end subroutine finalize_qcschema
 
 subroutine reorder_mo_coeffs(co, KLMN, nbasis, i, reord_mo_vec, ierr)
 
@@ -431,4 +431,4 @@ subroutine reorder_mo_coeffs(co, KLMN, nbasis, i, reord_mo_vec, ierr)
     
 end subroutine reorder_mo_coeffs
 
-end module quick_molden_module
+end module quick_qcschema_module
