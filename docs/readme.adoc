@@ -1,0 +1,10 @@
+= how to build
+
+
+[source, bash]
+----
+docker buildx build -t quick .
+
+
+docker run -it --gpus all quick /bin/bash
+----
