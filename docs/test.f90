@@ -1,5 +1,10 @@
 program hello
-    ! This is a comment line; it is ignored by the compiler
-    
-    print *, 'Hello, World!'
+    implicit none
+
+    ! Print "Hello, World!"
+    print *, "Hello, World!"
+
+    ! Calculate 2 + 2 and print the result
+    print *, "2 + 2 =", 2 + 2
+    print *, "haha"
 end program hello

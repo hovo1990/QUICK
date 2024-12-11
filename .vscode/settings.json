@@ -1,1 +1,5 @@
-{}
+{
+    "fortran.fortls.disabled": false,
+    "fortran.logging.level": "Debug",
+    "fortran.fortls.path": "/usr/local/bin/fortls"
+}

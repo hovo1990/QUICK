@@ -18,3 +18,9 @@ make -j8 install
 = Reproducible environment
 
 https://stackoverflow.com/questions/72129213/using-gpu-in-vs-code-container
+
+
+[source,bash]
+----
+gfortran -g test.f90
+----
