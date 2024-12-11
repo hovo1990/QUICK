@@ -109,6 +109,7 @@ contains
      !-------------------------------------------------------
      use allmod
      use quick_molden_module, only: quick_molden
+     use quick_qcschema_module, only: quick_qcschema
      implicit none
   
      logical :: done
@@ -161,7 +162,7 @@ contains
      use quick_scf_operator_module, only: scf_operator
      use quick_oei_module, only: bCalc1e 
      use quick_lri_module, only: computeLRI
-     use quick_molden_module, only: quick_molden
+     use quick_qcschema_module, only: quick_qcschema
 
 #ifdef CEW 
      use quick_cew_module, only : quick_cew
@@ -811,6 +812,10 @@ contains
 #if (defined CUDA || defined CUDA_MPIV) && !defined(HIP)
      if(master .and. write_molden) then 
          quick_molden%nscf_snapshots(quick_molden%iexport_snapshot)=jscf 
+     endif
+
+     if(master .and. write_qcschema) then 
+         quick_qcschema%nscf_snapshots(quick_qcschema%iexport_snapshot)=jscf 
      endif
 
      ! sign of the coefficient matrix resulting from cusolver is not consistent

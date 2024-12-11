@@ -480,6 +480,8 @@ subroutine run_quick(self,ierr)
   use quick_sad_guess_module, only: getSadGuess
   use quick_molden_module, only : quick_molden, initializeExport, exportCoordinates, exportBasis, &
       exportMO, exportSCF, exportOPT
+  use quick_qcschema_module, only : quick_qcschema, initializeExportQC, exportCoordinatesQC, exportBasisQC, &
+      exportMOQC, exportSCFQC, exportOPTQC
 
 
 #ifdef CEW 
@@ -564,6 +566,21 @@ subroutine run_quick(self,ierr)
 #endif
   endif
 
+  if(write_qcschema) then
+#ifdef MPIV
+     if(master) then
+#endif
+     write(qcSchemaFileName, '(A, ".json.", I0)') trim(baseinFileName), quick_api%step
+     call initializeExportQC(quick_qcschema, ierr)
+#ifdef MPIV
+     endif
+#endif
+  endif
+
+
+
+
+
   ! stop the timer for initial guess
   RECORD_TIME(timer_end%TIniGuess)
 
@@ -614,6 +631,24 @@ subroutine run_quick(self,ierr)
      if (quick_method%opt) then
         call exportSCF(quick_molden, ierr)
         call exportOPT(quick_molden, ierr)
+     end if
+#ifdef MPIV
+     endif
+#endif
+  endif
+
+
+
+  if(write_qcschema) then
+#ifdef MPIV
+     if(master) then
+#endif
+     call exportCoordinatesQC(quick_qcschema, ierr)
+     call exportBasisQC(quick_qcschema, ierr)
+     call exportMOQC(quick_qcschema, ierr)
+     if (quick_method%opt) then
+        call exportSCFQC(quick_qcschema, ierr)
+        call exportOPTQC(quick_qcschema, ierr)
      end if
 #ifdef MPIV
      endif

@@ -69,6 +69,7 @@ contains
      !-------------------------------------------------------
      use allmod
      use quick_molden_module, only: quick_molden, exportMO, exportSCF
+     use quick_qcschema_module, only: quick_qcschema, exportMOQC, exportSCFQC
      implicit none
   
      logical :: done
@@ -116,6 +117,14 @@ contains
          endif
      endif  
 
+      if(write_qcschema) then
+         call exportMO(quick_qcschema, ierr)
+         if(.not.quick_method%opt) then
+             quick_qcschema%iexport_snapshot=quick_qcschema%iexport_snapshot+1
+             call exportSCF(quick_qcschema, ierr)
+         endif
+     endif  
+
      return
   
   end subroutine uscf
@@ -131,6 +140,7 @@ contains
      use quick_scf_module  
      use quick_oei_module, only: bCalc1e
      use quick_molden_module, only: quick_molden
+     use quick_qcschema_module, only: quick_qcschema
 
 #if defined HIP || defined HIP_MPIV
      use quick_rocblas_module, only: rocDGEMM
@@ -886,7 +896,11 @@ contains
 
            if(write_molden) quick_molden%e_snapshots(jscf, quick_molden%iexport_snapshot) &
                             = quick_qm_struct%Eel+quick_qm_struct%Ecore
-  
+
+           if(write_qcschema) quick_qcschema%e_snapshots(jscf, quick_qcschema%iexport_snapshot) &
+                            = quick_qm_struct%Eel+quick_qm_struct%Ecore
+
+
            flush(ioutfile)
   
         endif
@@ -912,6 +926,10 @@ contains
 #if (defined CUDA || defined CUDA_MPIV) && !defined(HIP)
      if(master .and. write_molden) then
          quick_molden%nscf_snapshots(quick_molden%iexport_snapshot)=jscf
+     endif  
+
+     if(master .and. write_qcschema) then
+         quick_qcschema%nscf_snapshots(quick_qcschema%iexport_snapshot)=jscf
      endif  
 
      ! sign of the coefficient matrix resulting from cusolver is not consistent

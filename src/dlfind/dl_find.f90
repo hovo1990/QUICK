@@ -345,8 +345,9 @@ subroutine dlf_run(ierr2 &
   use dlf_allocate, only: allocate,deallocate
   use quick_molspec_module, only: xyz, quick_molspec
   use quick_method_module,only: quick_method
-  use quick_files_module, only: write_molden
+  use quick_files_module, only: write_molden, write_qcschema
   use quick_molden_module, only: quick_molden
+  use quick_qcschema_module, only: quick_qcschema
   implicit none
 #ifdef GAMESS
   real(rk) :: core(*) ! GAMESS memory, not used in DL-FIND
@@ -840,6 +841,13 @@ subroutine dlf_run(ierr2 &
        quick_molden%xyz_snapshots(:,:,quick_molden%iexport_snapshot) = glob%xcoords
        quick_molden%iexport_snapshot = quick_molden%iexport_snapshot + 1
     endif
+
+    ! store geometry for QCSchema
+    if(write_qcschema) then
+       quick_qcschema%xyz_snapshots(:,:,quick_qcschema%iexport_snapshot) = glob%xcoords
+       quick_qcschema%iexport_snapshot = quick_qcschema%iexport_snapshot + 1
+    endif
+
 
 
     ! if trust-radius, test for step acceptance. 

@@ -249,6 +249,12 @@ contains
                quick_molden%iexport_snapshot = quick_molden%iexport_snapshot + 1
            endif
 
+           ! First store coordinates for QCSchema so we don't store coordinates of next step
+           if(write_qcschema) then
+               quick_qcschema%xyz_snapshots(:,:,quick_qcschema%iexport_snapshot)=xyz(:,:)
+               quick_qcschema%iexport_snapshot = quick_qcschema%iexport_snapshot + 1
+           endif
+
            geomax = -1.d0
            georms = 0.d0
            do J=1,natom
