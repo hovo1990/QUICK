@@ -1,6 +1,8 @@
 program hello
     implicit none
 
+    print *, "Yolo!"
+
     ! Print "Hello, World!"
     print *, "Hello, World!"
 
