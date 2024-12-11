@@ -8,11 +8,11 @@
         "name": "(gdb) Fortran",
         "type": "cppdbg",
         "request": "launch",
-        "program": "${workspaceFolder}/install/bin/quick.cuda",
-        "args": ["${workspaceFolder}/docs/examples/meth_molden.xyz"], // Possible input molden for quick.cuda
-        "env": { "QUICK_BASIS" : "${workspaceFolder}/install/basisinstall/basis"},  //-- ! Buggy Replace "value_here" with the desired value
+        "program": "${workspaceFolder}/docs/a.out",
+        "args": [], // Possible input args for a.out
         "stopAtEntry": false,
         "cwd": "${workspaceFolder}",
+        "environment": [],
         "externalConsole": false,
         "MIMode": "gdb",
         "setupCommands": [

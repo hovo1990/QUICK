@@ -22,9 +22,17 @@ RUN apt-get update -y \
 RUN pip3 install fortls fprettify
 
 
+
+
 # Create a new user
 RUN useradd -ms /bin/bash vscode
 
 # Switch to the new user
 USER vscode
+
+
+# # Manually run steps from quick.rc
+# ENV QUICK_INSTALL /src/install
+# ENV QUICK_BASIS $QUICK_INSTALL/basis
+# ENV PATH $PATH:$QUICK_INSTALL/bin
 
