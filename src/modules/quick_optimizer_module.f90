@@ -38,6 +38,7 @@ contains
      use quick_oshell_gradient_module, only: uscf_gradient
      use quick_exception_module
      use quick_molden_module, only: quick_molden
+     use quick_qcschema_module, only: quick_qcschema
 #ifdef MPIV
      use mpi
 #endif

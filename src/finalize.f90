@@ -78,6 +78,7 @@ subroutine finalize(io,ierr,option)
     use allmod
     use quick_exception_module
     use quick_molden_module, only: finalizeExport, quick_molden
+    use quick_qcschema_module, only: finalizeExportQC, quick_qcschema
     implicit none
     integer io      !output final info and close this unit
     integer option  ! 0 if called from Quick and 1 if called from the API
@@ -95,6 +96,10 @@ subroutine finalize(io,ierr,option)
 
         ! finalize data exporting
         if(write_molden) call finalizeExport(quick_molden, ierr)
+
+        ! finalize data exporting QCSchema
+        if(write_qcschema) call finalizeExportQC(quick_qcschema, ierr)
+
 
         if (ierr /=0) then
              call PrtDate(io,'Error Termination. Task Failed on:',ierr)

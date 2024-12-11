@@ -35,6 +35,8 @@
     use quick_sad_guess_module, only: getSadGuess
     use quick_molden_module, only : quick_molden, initializeExport, exportCoordinates, exportBasis, &
          exportMO, exportSCF, exportOPT
+    use quick_qcschema_module, only : quick_schema, initializeExportQC, exportCoordinatesQC, exportBasisQC, &
+         exportMOQC, exportSCFQC, exportOPTQC
 #ifdef MPIV
     use mpi
 #endif
@@ -186,6 +188,12 @@
        call initializeExport(quick_molden, ierr)
     endif
 
+    ! QCSchema export
+    ! initialize exporting
+    if(write_qcschema.and. master) then
+       call initializeExport(quick_qcschema, ierr)
+    endif
+
     
     !------------------------------------------------------------------
     ! 4. SCF single point calculation. DFT if wanted. If it is OPT job
@@ -283,6 +291,18 @@
        if (quick_method%opt) then
           call exportSCF(quick_molden, ierr)
           call exportOPT(quick_molden, ierr)
+       end if
+    endif
+
+
+    ! QCSchema output
+    if(write_qcschema .and. master) then
+       call exportCoordinatesQC(quick_qcschema, ierr)
+       call exportBasisQC(quick_qcschema, ierr)
+       call exportMOQC(quick_qcschema, ierr)
+       if (quick_method%opt) then
+          call exportSCFQC(quick_qcschema, ierr)
+          call exportOPTQC(quick_qcschema, ierr)
        end if
     endif
 
