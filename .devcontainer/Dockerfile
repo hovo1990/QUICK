@@ -11,6 +11,7 @@ RUN apt-get update -y \
     git \
     openmpi-bin \
     openmpi-common \
-    libopenmpi-dev
+    libopenmpi-dev \
+    bash
 
 
