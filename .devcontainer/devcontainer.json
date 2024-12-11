@@ -12,6 +12,12 @@
     //     "terminal.integrated.shell.linux": "/bin/bash"
     // },
 
+
+
+    
+
+
+
     // Configure tool-specific properties.
     "customizations": {
         // Configure properties specific to VS Code.
@@ -22,7 +28,19 @@
             // },
 
             // Add the IDs of extensions you want installed when the container is created.
-            "extensions": ["ms-python.python", "ms-python.vscode-pylance", "fortran-lang.linter-gfortran", "ms-vscode.cpptools-extension-pack"]
+            "extensions": ["ms-python.python",
+             "ms-python.vscode-pylance",
+              "fortran-lang.linter-gfortran",
+               "ms-vscode.cpptools-extension-pack",
+               "ms-python.python",
+               "ms-python.vscode-pylance"]
         }
-    }
+    },
+
+    "runArgs": ["--gpus","all"
+    ],
+
+    "remoteUser": "vscode"
+
+
 }
