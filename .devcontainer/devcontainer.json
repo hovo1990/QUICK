@@ -1,8 +1,14 @@
 {
     "name": "quick-dev",
-    "image": "nfcore/gitpod:latest",
+    // "image": "nfcore/gitpod:latest",
     // "remoteUser": "gitpod",
-    "runArgs": ["--privileged"],
+    // "runArgs": ["--privileged"],
+
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+
+
 
     // Configure tool-specific properties.
     "customizations": {
@@ -14,7 +20,7 @@
             // },
 
             // Add the IDs of extensions you want installed when the container is created.
-            "extensions": ["ms-python.python", "ms-python.vscode-pylance", "nf-core.nf-core-extensionpack"]
+            "extensions": ["ms-python.python", "ms-python.vscode-pylance", "fortran-lang.linter-gfortran", "ms-vscode.cpptools-extension-pack"]
         }
     }
 }
