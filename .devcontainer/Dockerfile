@@ -19,3 +19,9 @@ RUN apt-get update -y \
 RUN pip3 install fortls
 
 
+# Create a new user
+RUN useradd -ms /bin/bash vscode
+
+# Switch to the new user
+USER vscode
+
