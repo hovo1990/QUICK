@@ -17,8 +17,8 @@ module quick_qcschema_module
     private
 
     public :: quick_qcschema
-    public :: initializeExport, finalizeExport, exportCoordinates, exportBasis, exportMO, &
-              exportSCF, exportOPT
+    public :: initializeExportQC, finalizeExportQC, exportCoordinatesQC, exportBasisQC, exportMOQC, &
+              exportSCFQC, exportOPTQC
 
     type quick_qcschema_type
       integer :: iQCSchemaFile
@@ -51,33 +51,33 @@ module quick_qcschema_module
 
     type (quick_qcschema_type),save:: quick_qcschema
 
-    interface initializeExport
+    interface initializeExportQC
         module procedure initialize_qcschema
-    end interface initializeExport
+    end interface initializeExportQC
 
-    interface finalizeExport
+    interface finalizeExportQC
         module procedure finalize_qcschema
-    end interface finalizeExport
+    end interface finalizeExportQC
 
-    interface exportCoordinates
+    interface exportCoordinatesQC
         module procedure write_coordinates
-    end interface exportCoordinates
+    end interface exportCoordinatesQC
 
-    interface exportBasis
+    interface exportBasisQC
         module procedure write_basis_info
-    end interface exportBasis
+    end interface exportBasisQC
 
-    interface exportMO
+    interface exportMOQC
         module procedure write_mo
-    end interface exportMO
+    end interface exportMOQC
 
-    interface exportSCF
+    interface exportSCFQC
         module procedure write_scf
-    end interface exportSCF
+    end interface exportSCFQC
 
-    interface exportOPT
+    interface exportOPTQC
         module procedure write_opt
-    end interface exportOpt
+    end interface exportOPTQC
 
 contains
 
