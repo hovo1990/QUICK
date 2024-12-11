@@ -499,7 +499,7 @@ module quick_method_module
         subroutine read_quick_method(self,keywd,ierr)
             use quick_exception_module
             use quick_mpi_module
-            use quick_files_module, only : write_molden
+            use quick_files_module, only : write_molden, write_qcschema
             implicit none
             character(len=200) :: keyWD
             character(len=200) :: tempstring
@@ -776,6 +776,8 @@ module quick_method_module
                 call read(keyWD, 'EXPORT', tempstring)
                 if(index(tempstring,'MOLDEN') /= 0) then
                     write_molden=.true.
+                else if(index(tempstring,'QCSchema') /= 0) then
+                    write_qcschema=.true.
                 else
                     ierr=35
                 endif

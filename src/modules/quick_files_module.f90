@@ -64,12 +64,14 @@ module quick_files_module
     integer :: iDataFile      = DATAFILEHANDLE   ! Data file, similar to chk file in gaussian
     integer :: iIntFile       = INTFILEHANDLE    ! integral file
     integer :: iMoldenFile    = MOLDENFILEHANDLE ! molden file
+    integer :: iQCSchemaFile  = QCSCHEMAFILEHANDLE ! QCSchema file
 
     logical :: fexist = .false.         ! Check if file exists
 
     logical :: isTemplate = .false.   ! is input file a template (i.e. only the keywords)
     integer :: wrtStep = 1            ! current step for writing to output file.
     logical :: write_molden = .false. ! flag to export data into molden format
+    logical :: write_qcschema = .false. ! flag to export data into qcschema json format
 
     contains
 

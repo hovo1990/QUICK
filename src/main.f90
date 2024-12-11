@@ -191,7 +191,7 @@
     ! QCSchema export
     ! initialize exporting
     if(write_qcschema.and. master) then
-       call initializeExport(quick_qcschema, ierr)
+       call initializeExportQC(quick_qcschema, ierr)
     endif
 
     
