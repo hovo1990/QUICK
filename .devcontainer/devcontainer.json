@@ -33,6 +33,7 @@
         }
     },
 
+    //-- * This is used to enable gpu for docker
     "runArgs": ["--gpus","all"
     ],
 
