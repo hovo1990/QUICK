@@ -29,6 +29,7 @@
               "fortran-lang.linter-gfortran",
                "ms-vscode.cpptools-extension-pack",
                "ms-python.python",
+               "ms-vscode.cmake-tools",
                "ms-python.vscode-pylance"]
         }
     },
