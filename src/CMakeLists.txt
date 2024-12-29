@@ -353,7 +353,7 @@ if(CUDA AND MPI)
 	config_module_dirs(test-api.${QUICK_GPU_TARGET_NAME}.MPI quick/mpi_${QUICK_GPU_TARGET_NAME} libxc/gpu)
 
 	#-- TODO link json fortran to quick executable
-	target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI json-fortran)
+	target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI jsonfortran)
 
 
 	install(TARGETS quick.${QUICK_GPU_TARGET_NAME}.MPI DESTINATION ${BINDIR} EXPORT QUICK)

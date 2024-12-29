@@ -1290,12 +1290,23 @@ FetchContent_Declare(
   GIT_REPOSITORY https://github.com/jacobwilliams/json-fortran.git
   GIT_TAG master # Replace 'main' with a specific tag or commit for stability
   GIT_SHALLOW OFF
+  OVERRIDE_FIND_PACKAGE
 )
 
-# Ensure json-fortran is downloaded and added
+# # Ensure json-fortran is downloaded and added
+# set(FETCHCONTENT_BASE_DIR ${CMAKE_BINARY_DIR}/_deps CACHE STRING "Base directory for FetchContent dependencies")
+# FetchContent_MakeAvailable(json-fortran)
+# find_package(json-fortran)
 set(FETCHCONTENT_BASE_DIR ${CMAKE_BINARY_DIR}/_deps CACHE STRING "Base directory for FetchContent dependencies")
-FetchContent_MakeAvailable(json-fortran)
-# find_package(json-fortran REQUIRED)
+
+FetchContent_GetProperties(json-fortran)
+if(NOT json-fortran_POPULATED)
+  FetchContent_Populate(json-fortran)
+
+  # Add the json-fortran project
+  add_subdirectory(${json-fortran_SOURCE_DIR} ${json-fortran_BINARY_DIR})
+endif()
+
 
 
 # target_link_libraries(libquick json-fortran)
