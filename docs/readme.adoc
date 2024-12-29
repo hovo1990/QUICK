@@ -20,6 +20,8 @@ cmake .. -DCOMPILER=GNU -DCMAKE_INSTALL_PREFIX=$(pwd)/../install -DCUDA=TRUE -DM
 
 make -j16 install
 
+make -j16 install VERBOSE=1 
+
 
 
 ----
