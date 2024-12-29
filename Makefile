@@ -162,7 +162,10 @@ aminstall: all
 	for i in quick quick.MPI quick.cuda quick.cuda.MPI; do if [ -x $(exefolder)/$$i ]; then mv $(exefolder)/$$i $(installfolder)/bin/; fi; done; \
 	echo "Successfully installed QUICK executables in $(installfolder)/bin folder."; \
 	else echo  "Error: $(installfolder)/bin folder not found."; exit 1; fi
-
+	#-- TODO copy json-fortran files
+	#-- ! TEST for now
+	@cp -f $(buildfolder)/_deps/json-fortran-build/lib/* $(installfolder)/lib/
+	@cp -f $(buildfolder)/_deps/json-fortran-build/include/* $(installfolder)/include/
 
 #  !---------------------------------------------------------------------!
 #  ! Installation targets                                                !
