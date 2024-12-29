@@ -1275,3 +1275,23 @@ elseif(nlopt_EXTERNAL)
   
   using_library_targets(nlopt LIBRARIES nlopt::nlopt)
 endif()
+
+
+
+#-- TODO adding json-fortran support
+#------------------------------------------------------------------------------
+#  json-fortran module for writing json files, such as QCSchema
+#------------------------------------------------------------------------------ 
+include(FetchContent)
+
+# Fetch json-fortran
+FetchContent_Declare(
+  json-fortran
+  GIT_REPOSITORY https://github.com/jacobwilliams/json-fortran.git
+  GIT_TAG master # Replace 'main' with a specific tag or commit for stability
+  GIT_SHALLOW OFF
+)
+
+# Ensure json-fortran is downloaded and added
+set(FETCHCONTENT_BASE_DIR ${CMAKE_BINARY_DIR}/_deps CACHE STRING "Base directory for FetchContent dependencies")
+FetchContent_MakeAvailable(json-fortran)

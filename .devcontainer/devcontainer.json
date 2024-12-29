@@ -30,6 +30,7 @@
                "ms-vscode.cpptools-extension-pack",
                "ms-python.python",
                "ms-vscode.cmake-tools",
+               "ms-vscode.makefile-tools",
                "ms-python.vscode-pylance"]
         }
     },
