@@ -345,10 +345,21 @@ if(CUDA AND MPI)
 	target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI libquick_mpi_${QUICK_GPU_TARGET_NAME})
 	config_module_dirs(quick.${QUICK_GPU_TARGET_NAME}.MPI quick/mpi_${QUICK_GPU_TARGET_NAME} libxc/gpu)
 
+
+
+
 	remove_link_libraries(test-api.${QUICK_GPU_TARGET_NAME}.MPI libquick_mpi)
 	target_link_libraries(test-api.${QUICK_GPU_TARGET_NAME}.MPI libquick_mpi_${QUICK_GPU_TARGET_NAME})
 	config_module_dirs(test-api.${QUICK_GPU_TARGET_NAME}.MPI quick/mpi_${QUICK_GPU_TARGET_NAME} libxc/gpu)
 
+	#-- TODO link json fortran to quick executable
+	target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI json-fortran)
+
+
 	install(TARGETS quick.${QUICK_GPU_TARGET_NAME}.MPI DESTINATION ${BINDIR} EXPORT QUICK)
 	install(TARGETS test-api.${QUICK_GPU_TARGET_NAME}.MPI DESTINATION ${BINDIR} EXPORT QUICK)
+	
 endif()
+
+
+#-- TODO Integrate json-fortran with quick

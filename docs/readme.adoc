@@ -10,6 +10,7 @@ docker run -it --gpus all quick /bin/bash
 
 
 rm -rf src_build/
+# this fixes the bug of not finding basis, just launch in the debug terminal
 export QUICK_BASIS=$(pwd)/install/basis
 mkdir src_build
 
@@ -19,7 +20,7 @@ cmake .. -DCOMPILER=GNU -DCMAKE_INSTALL_PREFIX=$(pwd)/../install -DCUDA=TRUE -DM
 
 make -j16 install
 
-# this fixes the bug of not finding basis, just launch in the debug terminal
+
 
 ----
 

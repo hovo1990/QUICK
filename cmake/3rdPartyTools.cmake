@@ -1295,3 +1295,7 @@ FetchContent_Declare(
 # Ensure json-fortran is downloaded and added
 set(FETCHCONTENT_BASE_DIR ${CMAKE_BINARY_DIR}/_deps CACHE STRING "Base directory for FetchContent dependencies")
 FetchContent_MakeAvailable(json-fortran)
+# find_package(json-fortran REQUIRED)
+
+
+# target_link_libraries(libquick json-fortran)
