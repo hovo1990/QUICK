@@ -286,6 +286,12 @@ target_compile_options(quick PRIVATE ${OPT_FFLAGS})
 config_module_dirs(quick quick/serial libxc/serial)
 target_link_libraries(quick libquick)
 
+
+# Ensure module files are found during compilation
+# target_include_directories(quick.${QUICK_GPU_TARGET_NAME}.MPI PRIVATE ${json-fortran_SOURCE_DIR}/src)
+
+
+
 add_executable(test-api ${TEST_API_SOURCES})
 target_compile_options(test-api PRIVATE ${OPT_FFLAGS})
 config_module_dirs(test-api quick/serial libxc/serial)
@@ -352,8 +358,13 @@ if(CUDA AND MPI)
 	target_link_libraries(test-api.${QUICK_GPU_TARGET_NAME}.MPI libquick_mpi_${QUICK_GPU_TARGET_NAME})
 	config_module_dirs(test-api.${QUICK_GPU_TARGET_NAME}.MPI quick/mpi_${QUICK_GPU_TARGET_NAME} libxc/gpu)
 
+
 	#-- TODO link json fortran to quick executable
-	target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI jsonfortran)
+	target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI  json_kinds)
+	target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI  json_module)
+	target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI  json_file_module)
+	target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI  json_parameters)
+
 
 
 	install(TARGETS quick.${QUICK_GPU_TARGET_NAME}.MPI DESTINATION ${BINDIR} EXPORT QUICK)

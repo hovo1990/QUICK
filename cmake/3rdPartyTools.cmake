@@ -1295,17 +1295,23 @@ FetchContent_Declare(
 
 # # Ensure json-fortran is downloaded and added
 # set(FETCHCONTENT_BASE_DIR ${CMAKE_BINARY_DIR}/_deps CACHE STRING "Base directory for FetchContent dependencies")
-# FetchContent_MakeAvailable(json-fortran)
+
 # find_package(json-fortran)
-set(FETCHCONTENT_BASE_DIR ${CMAKE_BINARY_DIR}/_deps CACHE STRING "Base directory for FetchContent dependencies")
+# set(FETCHCONTENT_BASE_DIR ${CMAKE_BINARY_DIR}/_deps CACHE STRING "Base directory for FetchContent dependencies")
+FetchContent_MakeAvailable(json-fortran)
 
-FetchContent_GetProperties(json-fortran)
-if(NOT json-fortran_POPULATED)
-  FetchContent_Populate(json-fortran)
+# # Specify the include and library directories manually (if needed)
+# include_directories(${json-fortran_SOURCE_DIR})
+# link_directories(${json-fortran_BINARY_DIR}/lib)
 
-  # Add the json-fortran project
-  add_subdirectory(${json-fortran_SOURCE_DIR} ${json-fortran_BINARY_DIR})
-endif()
+
+# FetchContent_GetProperties(json-fortran)
+# if(NOT json-fortran_POPULATED)
+#   FetchContent_Populate(json-fortran)
+
+#   # Add the json-fortran project
+#   add_subdirectory(${json-fortran_SOURCE_DIR} ${json-fortran_BINARY_DIR})
+# endif()
 
 
 
