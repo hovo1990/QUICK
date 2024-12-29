@@ -309,6 +309,10 @@ else()
 	install(FILES quick-cmake/quick.rc DESTINATION .)
 endif()
 
+
+#-- TODO insert json fortran, need to make so it install the content from lib to install/lib not install/jsonfortran-gnu-9.0.2/lib
+
+
 #--------------------------------------------------------------	
 # build report
 if(NOT INSIDE_AMBER)
