@@ -1299,6 +1299,7 @@ FetchContent_Declare(
 # find_package(json-fortran)
 # set(FETCHCONTENT_BASE_DIR ${CMAKE_BINARY_DIR}/_deps CACHE STRING "Base directory for FetchContent dependencies")
 FetchContent_MakeAvailable(json-fortran)
+# add_subdirectory(json-fortran)
 
 # # Specify the include and library directories manually (if needed)
 # include_directories(${json-fortran_SOURCE_DIR})
@@ -1316,3 +1317,14 @@ FetchContent_MakeAvailable(json-fortran)
 
 
 # target_link_libraries(libquick json-fortran)
+
+
+
+#-- TODO following tutorial https://github.com/eliasdaler/cmake-fetchcontent-tutorial-code/blob/master/dependencies/CMakeLists.txt
+
+# # SFML
+# FetchContent_Declare(
+#   json-fortran
+#   URL https://github.com/jacobwilliams/json-fortran/archive/refs/tags/9.0.2.zip
+# )
+# add_subdirectory(json-fortran)
