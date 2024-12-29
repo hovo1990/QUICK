@@ -360,12 +360,12 @@ if(CUDA AND MPI)
 
 
 	#-- TODO link json fortran to quick executable
-	target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI  json_kinds)
-	target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI  json_module)
-	target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI  json_file_module)
-	target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI  json_parameters)
-
-
+	# target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI  json_kinds)
+	# target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI  json_module)
+	# target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI  json_file_module)
+	# target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI  json_parameters)
+	# target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI jsonfortran::jsonfortran-static )
+	target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI jsonfortran)
 
 	install(TARGETS quick.${QUICK_GPU_TARGET_NAME}.MPI DESTINATION ${BINDIR} EXPORT QUICK)
 	install(TARGETS test-api.${QUICK_GPU_TARGET_NAME}.MPI DESTINATION ${BINDIR} EXPORT QUICK)

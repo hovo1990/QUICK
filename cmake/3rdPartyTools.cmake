@@ -1286,7 +1286,7 @@ include(FetchContent)
 
 # Fetch json-fortran
 FetchContent_Declare(
-  json-fortran
+  jsonfortran
   GIT_REPOSITORY https://github.com/jacobwilliams/json-fortran.git
   GIT_TAG master # Replace 'main' with a specific tag or commit for stability
   GIT_SHALLOW OFF
@@ -1298,7 +1298,9 @@ FetchContent_Declare(
 
 # find_package(json-fortran)
 # set(FETCHCONTENT_BASE_DIR ${CMAKE_BINARY_DIR}/_deps CACHE STRING "Base directory for FetchContent dependencies")
-FetchContent_MakeAvailable(json-fortran)
+FetchContent_MakeAvailable(jsonfortran)
+# find_package ( jsonfortran-${CMAKE_Fortran_COMPILER_ID} 9.0.2 REQUIRED )
+
 # add_subdirectory(json-fortran)
 
 
