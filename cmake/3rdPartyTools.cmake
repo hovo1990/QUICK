@@ -1318,7 +1318,8 @@ find_package(jsonfortran_temp)
 set(MY_DEBUG_VARIABLE "")
 
 get_property(jsonfortran_temp_targets GLOBAL PROPERTY IMPORTED_TARGETS)
-message(STATUS "Available jsonfortran targets: ${jsonfortran_temp_targets}")
+message(STATUS " Debug> Available jsonfortran targets: ${jsonfortran_temp_targets}")
+message(STATUS " Debug> Available jsonfortran is: ${jsonfortran_temp}")
 
 set(MY_DEBUG_VARIABLE "PrintTargets")
 

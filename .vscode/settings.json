@@ -8,7 +8,8 @@
         "-DCMAKE_INSTALL_PREFIX=${workspaceFolder}/../install",
         "-DCUDA=TRUE",
         "-DMPI=TRUE",
-        "-DCMAKE_BUILD_TYPE=Debug"
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "--graphviz=quick.dot"
     ],
     "cmake.configureOnOpen": false,
     "cmake.configureOnEdit": false,
