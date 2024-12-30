@@ -1284,21 +1284,39 @@ endif()
 #------------------------------------------------------------------------------ 
 include(FetchContent)
 
+
+
+#json fortran uses the compiler id as an identifier
+string(TOLOWER ${CMAKE_Fortran_COMPILER_ID} compiler_id)
+
+
 # Fetch json-fortran
-FetchContent_Declare(
-  jsonfortran
+# FetchContent_Declare(
+#   jsonfortran-${compiler_id}
+#   GIT_REPOSITORY https://github.com/jacobwilliams/json-fortran.git
+#   GIT_TAG master # Replace 'main' with a specific tag or commit for stability
+#   GIT_SHALLOW OFF
+#   OVERRIDE_FIND_PACKAGE
+# )
+
+#-- * taken from https://gitlab.kitware.com/cmake/cmake/-/issues/24223
+
+FetchContent_Declare(jsonfortran-${compiler_id}
   GIT_REPOSITORY https://github.com/jacobwilliams/json-fortran.git
-  GIT_TAG master # Replace 'main' with a specific tag or commit for stability
+  GIT_TAG 1147599ac31dbd4a23bbaccd8492221c8b3cd488 # 9.0.2
+  # if the project is installed system-wide, use that instead of building it ourselves
   GIT_SHALLOW OFF
-  OVERRIDE_FIND_PACKAGE
+  FIND_PACKAGE_ARGS NAMES jsonfortran-${compiler_id}
 )
+
+
 
 # # Ensure json-fortran is downloaded and added
 # set(FETCHCONTENT_BASE_DIR ${CMAKE_BINARY_DIR}/_deps CACHE STRING "Base directory for FetchContent dependencies")
 
 # find_package(json-fortran)
 # set(FETCHCONTENT_BASE_DIR ${CMAKE_BINARY_DIR}/_deps CACHE STRING "Base directory for FetchContent dependencies")
-FetchContent_MakeAvailable(jsonfortran)
+FetchContent_MakeAvailable(jsonfortran-${compiler_id})
 # find_package ( jsonfortran-${CMAKE_Fortran_COMPILER_ID} 9.0.2 REQUIRED )
 
 # add_subdirectory(json-fortran)

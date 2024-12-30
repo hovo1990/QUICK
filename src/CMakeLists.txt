@@ -292,7 +292,7 @@ target_link_libraries(quick libquick)
 #-- TODO json-fortran directories
 # target_include_directories(jsonfortran PUBLIC . ${jsonfortran_BINARY_DIR})
 #-- ! TODO need to figure out
-target_include_directories(quick PUBLIC . ${jsonfortran_BINARY_DIR})
+# target_include_directories(quick PUBLIC . ${jsonfortran_BINARY_DIR})
 
 
 add_executable(test-api ${TEST_API_SOURCES})
@@ -368,8 +368,8 @@ if(CUDA AND MPI)
 	# target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI  json_file_module)
 	# target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI  json_parameters)
 	# target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI jsonfortran::jsonfortran-static )
-
-	target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI jsonfortran)
+	add_dependencies(quick.${QUICK_GPU_TARGET_NAME}.MPI jsonfortran-static)
+	target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI jsonfortran-static)
 
 	install(TARGETS quick.${QUICK_GPU_TARGET_NAME}.MPI DESTINATION ${BINDIR} EXPORT QUICK)
 	install(TARGETS test-api.${QUICK_GPU_TARGET_NAME}.MPI DESTINATION ${BINDIR} EXPORT QUICK)

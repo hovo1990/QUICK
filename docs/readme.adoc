@@ -18,12 +18,12 @@ cd src_build
 
 cmake .. -DCOMPILER=GNU -DCMAKE_INSTALL_PREFIX=$(pwd)/../install -DCUDA=TRUE -DMPI=TRUE -DCMAKE_BUILD_TYPE=Debug
 
-make -j16 install
+
 
 make -j16 install VERBOSE=1 
 
 
-
+make -j16 install
 ----
 
 
