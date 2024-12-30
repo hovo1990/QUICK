@@ -9,5 +9,8 @@
         "-DCUDA=TRUE",
         "-DMPI=TRUE",
         "-DCMAKE_BUILD_TYPE=Debug"
-    ]
+    ],
+    "terminal.integrated.env.linux": {
+        "QUICK_BASIS": "${workspaceFolder}/install/basis"
+    }
 }
