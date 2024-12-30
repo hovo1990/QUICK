@@ -1,5 +1,6 @@
 ############################
-### Base MPI CUDA 12.6.0 ###
+### Base MPI CUDA 12.0.1 ###
+###-- ! For QUICK compatibility
 ############################
 FROM nvidia/cuda:12.0.1-devel-ubuntu22.04 AS base-mpi-cuda-12.0.1
 
