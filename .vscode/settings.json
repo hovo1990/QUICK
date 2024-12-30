@@ -10,6 +10,8 @@
         "-DMPI=TRUE",
         "-DCMAKE_BUILD_TYPE=Debug"
     ],
+    "cmake.configureOnOpen": false,
+    "cmake.configureOnEdit": false,
     "terminal.integrated.env.linux": {
         "QUICK_BASIS": "${workspaceFolder}/install/basis"
     }
