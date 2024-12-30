@@ -369,7 +369,10 @@ if(CUDA AND MPI)
 	# target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI  json_parameters)
 	# target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI jsonfortran::jsonfortran-static )
 	add_dependencies(quick.${QUICK_GPU_TARGET_NAME}.MPI jsonfortran-static)
-	target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI jsonfortran-static)
+	target_include_directories(quick.${QUICK_GPU_TARGET_NAME}.MPI PUBLIC ${JSONFORTRAN_INCLUDE_DIRS})
+	target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI 
+		${JSONFORTRAN_LIBRARIES}
+	)
 
 	install(TARGETS quick.${QUICK_GPU_TARGET_NAME}.MPI DESTINATION ${BINDIR} EXPORT QUICK)
 	install(TARGETS test-api.${QUICK_GPU_TARGET_NAME}.MPI DESTINATION ${BINDIR} EXPORT QUICK)

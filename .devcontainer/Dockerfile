@@ -1,7 +1,9 @@
 ############################
-### Base MPI CUDA 12.0.1 ###
+### Base MPI CUDA 12.6.0 ###
 ############################
-FROM nvidia/cuda:12.0.1-devel-ubuntu22.04 AS base-mpi-cuda-12.0.1
+# FROM nvidia/cuda:12.0.1-devel-ubuntu22.04 AS base-mpi-cuda-12.0.1
+
+FROM  nvidia/cuda:12.6.0-devel-ubuntu24.04 AS base-mpi-cuda-12.6.0
 
 RUN apt-get update -y \
  && apt-get install -y \
@@ -21,6 +23,8 @@ RUN apt-get update -y \
 
 RUN pip3 install fortls fprettify
 
+
+#-- * ubuntu 22.04 cmake version is cmake version 3.22.1
 
 
 
