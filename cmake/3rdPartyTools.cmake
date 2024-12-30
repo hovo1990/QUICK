@@ -1309,14 +1309,28 @@ FetchContent_Declare(jsonfortran-${compiler_id}
   FIND_PACKAGE_ARGS NAMES jsonfortran-${compiler_id}
 )
 
+FetchContent_MakeAvailable(jsonfortran-${compiler_id})
+# Optional: Set the install directory or explicitly find it
+set(jsonfortran-${compiler_id}_DIR ${CMAKE_BINARY_DIR}/_deps/jsonfortran-${compiler_id}u-src)
+find_package(jsonfortran-${compiler_id})
 
 
+set(MY_DEBUG_VARIABLE "")
+
+
+
+
+#-- ! Old stuff
 # # Ensure json-fortran is downloaded and added
 # set(FETCHCONTENT_BASE_DIR ${CMAKE_BINARY_DIR}/_deps CACHE STRING "Base directory for FetchContent dependencies")
 
 # find_package(json-fortran)
 # set(FETCHCONTENT_BASE_DIR ${CMAKE_BINARY_DIR}/_deps CACHE STRING "Base directory for FetchContent dependencies")
-FetchContent_MakeAvailable(jsonfortran-${compiler_id})
+
+
+
+
+
 # find_package ( jsonfortran-${CMAKE_Fortran_COMPILER_ID} 9.0.2 REQUIRED )
 
 # add_subdirectory(json-fortran)
