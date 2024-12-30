@@ -139,7 +139,21 @@ add_library(libquick SHARED ${QUICK_MODULES_SOURCES_FULLPATH} ${DFTD3_SOURCES_FU
 target_compile_options(libquick PRIVATE ${OPT_FFLAGS})
 config_module_dirs(libquick quick/serial libxc/serial)
 
-target_link_libraries(libquick PRIVATE xc octree ${QUICK_LAPACK} ${QUICK_BLAS})
+
+
+#-- * target link json-fortran with libquick
+#-- TODO move this to qcschema exporter New version
+#-- TODO better location to target_link_libraries, but still they are not included
+set(MY_DEBUG_VARIABLE_LINK_STAGE "BEFORE-STAGING")
+
+add_dependencies(libquick  jsonfortran-static)
+
+target_link_libraries(libquick PRIVATE xc octree ${QUICK_LAPACK} ${QUICK_BLAS} jsonfortran_temp)
+
+set(MY_DEBUG_VARIABLE_LINK_STAGE "AFTER-STAGING")
+
+
+
 if(INSIDE_AMBER)
     target_link_libraries(libquick PRIVATE libcew)
 endif()
@@ -369,23 +383,23 @@ if(CUDA AND MPI)
 	# target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI  json_parameters)
 	# target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI jsonfortran::jsonfortran-static )
 
-	#-- ! New version
-	set(MY_DEBUG_VARIABLE_LINK_STAGE "BEFORE-STAGING")
+	# #-- TODO move this to qcschema exporter New version
+	# set(MY_DEBUG_VARIABLE_LINK_STAGE "BEFORE-STAGING")
 
-	add_dependencies(quick.${QUICK_GPU_TARGET_NAME}.MPI jsonfortran-static)
-	# target_include_directories(quick.${QUICK_GPU_TARGET_NAME}.MPI PUBLIC ${JSONFORTRAN_INCLUDE_DIRS})
+	# add_dependencies(quick.${QUICK_GPU_TARGET_NAME}.MPI jsonfortran-static)
+	# # target_include_directories(quick.${QUICK_GPU_TARGET_NAME}.MPI PUBLIC ${JSONFORTRAN_INCLUDE_DIRS})
 
-	set(MY_DEBUG_VARIABLE_LINK_STAGE "STAGING")
+	# set(MY_DEBUG_VARIABLE_LINK_STAGE "STAGING")
 
-	# target_include_directories(quick.${QUICK_GPU_TARGET_NAME}.MPI PUBLIC 
-	# 	${jsonfortran_temp_SOURCE_DIR}/src
-	# 	${jsonfortran_temp_BINARY_DIR})
+	# # target_include_directories(quick.${QUICK_GPU_TARGET_NAME}.MPI PUBLIC 
+	# # 	${jsonfortran_temp_SOURCE_DIR}/src
+	# # 	${jsonfortran_temp_BINARY_DIR})
 
-	target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI 
-		jsonfortran_temp
-	)
+	# target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI 
+	# 	jsonfortran_temp
+	# )
 
-	set(MY_DEBUG_VARIABLE_LINK_STAGE "AFTER-STAGING")
+	# set(MY_DEBUG_VARIABLE_LINK_STAGE "AFTER-STAGING")
 
 	#-- ! OLD version
 	#-- TODO jsonfortran-static is    "/workspaces/QUICK/src/jsonfortran-static" which is wrong

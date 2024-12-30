@@ -85,6 +85,7 @@ subroutine write_coordinates(self, ierr)
 
     use quick_molspec_module, only: quick_molspec, xyz, natom
     use quick_constants_module, only : symbol, BOHRS_TO_A
+    ! use json_module
     implicit none
     type (quick_qcschema_type), intent(in) :: self
     integer, intent(out) :: ierr
@@ -114,6 +115,8 @@ subroutine write_basis_info(self, ierr)
 
     use quick_basis_module, only: quick_basis, nshell, nbasis, ncontract
     use quick_molspec_module, only: natom
+    ! use json_module
+
     implicit none
     type (quick_qcschema_type), intent(in) :: self
     integer, intent(out) :: ierr
@@ -200,6 +203,9 @@ subroutine write_mo(self, ierr)
     use quick_scratch_module
     use quick_molspec_module, only: quick_molspec
     use quick_method_module, only: quick_method
+    ! use json_module
+
+
     implicit none
     type (quick_qcschema_type), intent(inout) :: self
     integer, intent(out) :: ierr    
