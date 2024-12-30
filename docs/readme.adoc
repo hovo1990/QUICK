@@ -30,7 +30,7 @@ make -j16 install
 
 [source, bash]
 ----
-
+to debug cmake look at cmake.configureArgs in .vscode/settings.json
 ----
 
 

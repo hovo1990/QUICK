@@ -1,5 +1,13 @@
 {
     "fortran.fortls.disabled": false,
     "fortran.logging.level": "Debug",
-    "fortran.fortls.path": "/usr/local/bin/fortls"
+    "fortran.fortls.path": "/usr/local/bin/fortls",
+    // -- TODO these sets the arguments for cmake tools
+    "cmake.configureArgs": [
+        "-DCOMPILER=GNU",
+        "-DCMAKE_INSTALL_PREFIX=${workspaceFolder}/../install",
+        "-DCUDA=TRUE",
+        "-DMPI=TRUE",
+        "-DCMAKE_BUILD_TYPE=Debug"
+    ]
 }
