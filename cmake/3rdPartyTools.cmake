@@ -1301,24 +1301,26 @@ string(TOLOWER ${CMAKE_Fortran_COMPILER_ID} compiler_id)
 
 #-- * taken from https://gitlab.kitware.com/cmake/cmake/-/issues/24223
 
-FetchContent_Declare(jsonfortran-${compiler_id}
+FetchContent_Declare(jsonfortran_temp
   GIT_REPOSITORY https://github.com/jacobwilliams/json-fortran.git
   GIT_TAG 1147599ac31dbd4a23bbaccd8492221c8b3cd488 # 9.0.2
   # if the project is installed system-wide, use that instead of building it ourselves
   GIT_SHALLOW OFF
-  FIND_PACKAGE_ARGS NAMES jsonfortran-${compiler_id}
+  FIND_PACKAGE_ARGS NAMES jsonfortran_temp
 )
 
-FetchContent_MakeAvailable(jsonfortran-${compiler_id})
+FetchContent_MakeAvailable(jsonfortran_temp)
 # Optional: Set the install directory or explicitly find it
-set(jsonfortran-${compiler_id}_DIR ${CMAKE_BINARY_DIR}/_deps/jsonfortran-${compiler_id}u-src)
-find_package(jsonfortran-${compiler_id})
+# set(jsonfortran_temp_DIR ${CMAKE_BINARY_DIR}/_deps/jsonfortran_temp-src)
+find_package(jsonfortran_temp)
 
 
 set(MY_DEBUG_VARIABLE "")
 
+get_property(jsonfortran_temp_targets GLOBAL PROPERTY IMPORTED_TARGETS)
+message(STATUS "Available jsonfortran targets: ${jsonfortran_temp_targets}")
 
-
+set(MY_DEBUG_VARIABLE "PrintTargets")
 
 #-- ! Old stuff
 # # Ensure json-fortran is downloaded and added

@@ -369,17 +369,36 @@ if(CUDA AND MPI)
 	# target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI  json_parameters)
 	# target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI jsonfortran::jsonfortran-static )
 
-	#-- TODO jsonfortran-static is    "/workspaces/QUICK/src/jsonfortran-static" which is wrong
+	#-- ! New version
+	set(MY_DEBUG_VARIABLE_LINK_STAGE "BEFORE-STAGING")
+
 	add_dependencies(quick.${QUICK_GPU_TARGET_NAME}.MPI jsonfortran-static)
 	# target_include_directories(quick.${QUICK_GPU_TARGET_NAME}.MPI PUBLIC ${JSONFORTRAN_INCLUDE_DIRS})
 
 	set(MY_DEBUG_VARIABLE_LINK_STAGE "STAGING")
 
-	target_include_directories(quick.${QUICK_GPU_TARGET_NAME}.MPI PUBLIC jsonfortran-static)
+	# target_include_directories(quick.${QUICK_GPU_TARGET_NAME}.MPI PUBLIC 
+	# 	${jsonfortran_temp_SOURCE_DIR}/src
+	# 	${jsonfortran_temp_BINARY_DIR})
 
 	target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI 
-		jsonfortran-static
+		jsonfortran_temp
 	)
+
+	set(MY_DEBUG_VARIABLE_LINK_STAGE "AFTER-STAGING")
+
+	#-- ! OLD version
+	#-- TODO jsonfortran-static is    "/workspaces/QUICK/src/jsonfortran-static" which is wrong
+	# add_dependencies(quick.${QUICK_GPU_TARGET_NAME}.MPI jsonfortran-static)
+	# # target_include_directories(quick.${QUICK_GPU_TARGET_NAME}.MPI PUBLIC ${JSONFORTRAN_INCLUDE_DIRS})
+
+	# set(MY_DEBUG_VARIABLE_LINK_STAGE "STAGING")
+
+	# target_include_directories(quick.${QUICK_GPU_TARGET_NAME}.MPI PUBLIC jsonfortran-static)
+
+	# target_link_libraries(quick.${QUICK_GPU_TARGET_NAME}.MPI 
+	# 	jsonfortran-static
+	# )
 
 	install(TARGETS quick.${QUICK_GPU_TARGET_NAME}.MPI DESTINATION ${BINDIR} EXPORT QUICK)
 	install(TARGETS test-api.${QUICK_GPU_TARGET_NAME}.MPI DESTINATION ${BINDIR} EXPORT QUICK)
