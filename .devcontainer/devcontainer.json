@@ -31,7 +31,10 @@
                "ms-python.python",
                "ms-vscode.cmake-tools",
                "ms-vscode.makefile-tools",
-               "ms-python.vscode-pylance"]
+               "ms-python.vscode-pylance",
+                "asciidoctor.asciidoctor-vscode",
+                "ms-azuretools.vscode-docker"
+            ]
         }
     },
 

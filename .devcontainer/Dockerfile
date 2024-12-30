@@ -21,6 +21,12 @@ RUN apt-get update -y \
     python3 \
     python3-pip
 
+
+#-- * For ubuntu 24.04
+RUN rm /usr/lib/python3.12/EXTERNALLY-MANAGED
+
+
+
 RUN pip3 install fortls fprettify
 
 

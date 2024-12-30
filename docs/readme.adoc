@@ -26,6 +26,14 @@ make -j16 install VERBOSE=1
 make -j16 install
 ----
 
+= Cmake debugger in vs code
+
+[source, bash]
+----
+
+----
+
+
 
 = Reproducible environment
 
