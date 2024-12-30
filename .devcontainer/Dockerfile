@@ -21,11 +21,13 @@ RUN apt-get update -y \
     bash \
     python3 \
     python3-pip \
+    python3-pydot \ 
     ca-certificates \
     gpg \
     wget \
     build-essential \
-    unzip 
+    unzip \
+    graphviz
 
 
 #-- * Install newest cmake from official kitware apt repository

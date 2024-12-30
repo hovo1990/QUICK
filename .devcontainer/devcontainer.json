@@ -33,7 +33,8 @@
                "ms-vscode.makefile-tools",
                "ms-python.vscode-pylance",
                 "asciidoctor.asciidoctor-vscode",
-                "ms-azuretools.vscode-docker"
+                "ms-azuretools.vscode-docker",
+                "tintinweb.graphviz-interactive-preview"
             ]
         }
     },
