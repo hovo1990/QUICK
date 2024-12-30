@@ -25,7 +25,7 @@ RUN pip3 install fortls fprettify
 
 
 #-- * ubuntu 22.04 cmake version is cmake version 3.22.1
-
+#-- * ubuntu 24.04 cmake version is cmake version 3.28.3
 
 
 # Create a new user
