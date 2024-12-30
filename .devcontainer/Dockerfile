@@ -1,9 +1,9 @@
 ############################
 ### Base MPI CUDA 12.6.0 ###
 ############################
-# FROM nvidia/cuda:12.0.1-devel-ubuntu22.04 AS base-mpi-cuda-12.0.1
+FROM nvidia/cuda:12.0.1-devel-ubuntu22.04 AS base-mpi-cuda-12.0.1
 
-FROM  nvidia/cuda:12.6.0-devel-ubuntu24.04 AS base-mpi-cuda-12.6.0
+# FROM  nvidia/cuda:12.6.0-devel-ubuntu24.04 AS base-mpi-cuda-12.6.0
 
 RUN apt-get update -y \
  && apt-get install -y \
@@ -11,7 +11,7 @@ RUN apt-get update -y \
     gdb \
     valgrind \
     binutils \
-    cmake \
+    #-- ! cmake this version does not have vs code cmake debugging capabilities
     g++ \
     git \
     openmpi-bin \
@@ -19,11 +19,32 @@ RUN apt-get update -y \
     libopenmpi-dev \
     bash \
     python3 \
-    python3-pip
+    python3-pip \
+    ca-certificates \
+    gpg \
+    wget \
+    build-essential \
+    unzip 
 
+
+#-- * Install newest cmake from official kitware apt repository
+RUN test -f /usr/share/doc/kitware-archive-keyring/copyright || \
+    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+
+RUN echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null \
+    apt-get update
+
+
+RUN test -f /usr/share/doc/kitware-archive-keyring/copyright || \
+    rm /usr/share/keyrings/kitware-archive-keyring.gpg
+    
+
+RUN  apt-get install kitware-archive-keyring && apt-get update
+
+RUN apt-get install cmake
 
 #-- * For ubuntu 24.04
-RUN rm /usr/lib/python3.12/EXTERNALLY-MANAGED
+# RUN rm /usr/lib/python3.12/EXTERNALLY-MANAGED
 
 
 
