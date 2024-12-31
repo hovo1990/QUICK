@@ -22,6 +22,12 @@ make -j16 install VERBOSE=1
 
 
 make -j16 install
+
+
+#-- Enter running vs code container
+
+docker exec -it <mycontainer> bash
+
 ----
 
 = Cmake debugger in vs code

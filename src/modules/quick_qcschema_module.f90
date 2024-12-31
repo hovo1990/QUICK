@@ -344,14 +344,55 @@ subroutine initialize_qcschema(self, ierr)
     use quick_method_module, only: quick_method
     use quick_molspec_module, only: natom, quick_molspec
     use quick_constants_module, only : symbol
+
+
+    use,intrinsic :: iso_fortran_env, only: wp => real64
+    use json_module
+
+
     implicit none
     type (quick_qcschema_type), intent(inout) :: self
+    type(json_core) :: json
+    type(json_value),pointer :: p, inp
+
+
     integer, intent(out) :: ierr
     integer :: i, dimy
 
     self%iQCSchemaFile = iQCSchemaFile
     self%iexport_snapshot=1
     self%natom = natom
+
+    ! initialize the class
+    call json%initialize()
+
+    ! initialize the structure:
+    call json%create_object(p,'')
+
+    ! add an "inputs" object to the structure:
+    call json%create_object(inp,'inputs')
+    call json%add(p, inp) !add it to the root
+
+!     ! add some data to inputs:
+!     call json%add(inp, 't0', 0.1_wp)
+!     call json%add(inp, 'tf', 1.1_wp)
+!     call json%add(inp, 'x0', 9999.0000d0)
+!     call json%add(inp, 'integer_scalar', 787)
+!     call json%add(inp, 'integer_array', [2,4,99])
+!     call json%add(inp, 'names', ['aaa','bbb','ccc'])
+!     call json%add(inp, 'logical_scalar', .true.)
+!     call json%add(inp, 'logical_vector', [.true., .false., .true.])
+!     nullify(inp)  !don't need this anymore
+
+!     ! write the file:
+!     call json%print(p,'example2.json')
+
+!     !cleanup:
+!     call json%destroy(p)
+!     if (json%failed()) stop 1
+
+
+
     dimy = 1
     if (quick_method%opt) then
        self%opt = .true.

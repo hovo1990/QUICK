@@ -1314,6 +1314,9 @@ FetchContent_MakeAvailable(jsonfortran_temp)
 # set(jsonfortran_temp_DIR ${CMAKE_BINARY_DIR}/_deps/jsonfortran_temp-src)
 find_package(jsonfortran_temp)
 
+#-- TODO Force json-fortran to use -fPIC otherwise gives error
+set_target_properties(jsonfortran-static PROPERTIES POSITION_INDEPENDENT_CODE ON)
+
 
 set(MY_DEBUG_VARIABLE "")
 
