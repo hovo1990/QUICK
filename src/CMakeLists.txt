@@ -148,7 +148,7 @@ set(MY_DEBUG_VARIABLE_LINK_STAGE "BEFORE-STAGING")
 
 add_dependencies(libquick  jsonfortran-static)
 
-target_link_libraries(libquick PRIVATE xc octree ${QUICK_LAPACK} ${QUICK_BLAS} jsonfortran_temp)
+target_link_libraries(libquick PRIVATE xc octree ${QUICK_LAPACK} ${QUICK_BLAS} jsonfortran-static)
 
 set(MY_DEBUG_VARIABLE_LINK_STAGE "AFTER-STAGING")
 
