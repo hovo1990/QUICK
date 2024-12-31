@@ -776,7 +776,7 @@ module quick_method_module
                 call read(keyWD, 'EXPORT', tempstring)
                 if(index(tempstring,'MOLDEN') /= 0) then
                     write_molden=.true.
-                else if(index(tempstring,'QCSchema') /= 0) then
+                else if(index(tempstring,'QCSCHEMA') /= 0) then
                     write_qcschema=.true.
                 else
                     ierr=35
