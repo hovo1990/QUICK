@@ -363,34 +363,14 @@ subroutine initialize_qcschema(self, ierr)
     self%iexport_snapshot=1
     self%natom = natom
 
-    ! initialize the class
+
+    ! -- * initialize the class
     call json%initialize()
 
-    ! initialize the structure:
+    ! -- * initialize the structure:
     call json%create_object(p,'')
 
-    ! add an "inputs" object to the structure:
-    call json%create_object(inp,'inputs')
-    call json%add(p, inp) !add it to the root
-
-    ! add some data to inputs:
-    call json%add(inp, 't0', 0.1_wp)
-    call json%add(inp, 'tf', 1.1_wp)
-    call json%add(inp, 'x0', 9999.0000d0)
-    call json%add(inp, 'integer_scalar', 787)
-    call json%add(inp, 'integer_array', [2,4,99])
-    call json%add(inp, 'names', ['aaa','bbb','ccc'])
-    call json%add(inp, 'logical_scalar', .true.)
-    call json%add(inp, 'logical_vector', [.true., .false., .true.])
-    nullify(inp)  !don't need this anymore
-
-    ! write the file:
-    call json%print(p,'example2.json')
-
-    !cleanup:
-    call json%destroy(p)
-    if (json%failed()) stop 1
-
+   
 
 
     dimy = 1
@@ -401,21 +381,46 @@ subroutine initialize_qcschema(self, ierr)
        self%opt = .false.
     end if
 
-    ! allocate memory
+    ! -- * allocate memory
     if(.not. allocated(self%atom_symbol)) allocate(self%atom_symbol(natom))
     if(.not. allocated(self%nscf_snapshots)) allocate(self%nscf_snapshots(quick_method%iscf))
     if(.not. allocated(self%e_snapshots)) allocate(self%e_snapshots(quick_method%iscf, dimy))
     if(.not. allocated(self%xyz_snapshots)) allocate(self%xyz_snapshots(3, natom, dimy))
 
-    ! store atom symbols
+    ! -- * store atom symbols
     do i = 1, natom
        self%atom_symbol(i) = symbol(quick_molspec%iattype(i))
     end do
 
-    ! open file
-    call quick_open(self%iQCSchemaFile,qcSchemaFileName,'U','F','R',.false.,ierr)
+    ! -- * open file
+    ! call quick_open(self%iQCSchemaFile,qcSchemaFileName,'U','F','R',.false.,ierr)
 
-    write(self%iQCSchemaFile, '("[QCSchema Format]")')
+    ! write(self%iQCSchemaFile, '("[QCSchema Format]")')
+
+
+
+    ! -- * add an "inputs" object to the structure:
+    call json%create_object(inp,'inputs')
+    call json%add(p, inp) !add it to the root
+
+    ! -- * add some data to inputs:
+    call json%add(inp, 't0', 0.1_wp)
+    call json%add(inp, 'tf', 1.1_wp)
+    call json%add(inp, 'x0', 9999.0000d0)
+    call json%add(inp, 'integer_scalar', 787)
+    call json%add(inp, 'integer_array', [2,4,99])
+    call json%add(inp, 'names', ['aaa','bbb','ccc'])
+    call json%add(inp, 'logical_scalar', .true.)
+    call json%add(inp, 'logical_vector', [.true., .false., .true.])
+    nullify(inp)  !don't need this anymore
+
+    ! -- * write the file:
+    call json%print(p, qcSchemaFileName)
+
+    ! -- * cleanup:
+    call json%destroy(p)
+    if (json%failed()) stop 1
+
 
 end subroutine initialize_qcschema
 

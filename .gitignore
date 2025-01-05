@@ -18,3 +18,6 @@ debug.*
 *.bak
 make.in
 fort.2025
+
+
+fort.*
