@@ -34,7 +34,10 @@
                "ms-python.vscode-pylance",
                 "asciidoctor.asciidoctor-vscode",
                 "ms-azuretools.vscode-docker",
-                "tintinweb.graphviz-interactive-preview"
+                "tintinweb.graphviz-interactive-preview",
+                "edwinhuish.better-comments-next",
+                "IBM.output-colorizer",
+                "naumovs.color-highlight"
             ]
         }
     },
