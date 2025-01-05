@@ -11,7 +11,11 @@
 
 #include "util.fh"
 
+
 module quick_qcschema_module
+
+    ! -- TODO use json_module
+    use json_module
 
     implicit none
     private
@@ -46,6 +50,13 @@ module quick_qcschema_module
     
       ! temporary vector for reorganizing mo coefficients
       double precision, dimension(:), allocatable :: reord_mo_vec
+
+      ! -- TODO initiliazing json objects
+      type(json_core) :: json
+      type(json_value),pointer :: p, inp
+
+
+  
 
     end type quick_qcschema_type
 
@@ -85,7 +96,7 @@ subroutine write_coordinates(self, ierr)
 
     use quick_molspec_module, only: quick_molspec, xyz, natom
     use quick_constants_module, only : symbol, BOHRS_TO_A
-    use json_module
+    ! use json_module
     implicit none
     type (quick_qcschema_type), intent(in) :: self
     integer, intent(out) :: ierr
@@ -203,8 +214,9 @@ subroutine write_mo(self, ierr)
     use quick_scratch_module
     use quick_molspec_module, only: quick_molspec
     use quick_method_module, only: quick_method
-    use json_module
 
+    ! -- TODO use json_module
+    use json_module
 
     implicit none
     type (quick_qcschema_type), intent(inout) :: self
@@ -352,25 +364,27 @@ subroutine initialize_qcschema(self, ierr)
 
     implicit none
     type (quick_qcschema_type), intent(inout) :: self
-    type(json_core) :: json
-    type(json_value),pointer :: p, inp
+
+
 
 
     integer, intent(out) :: ierr
-    integer :: i, dimy
+    integer :: i, dimy, testy
 
     self%iQCSchemaFile = iQCSchemaFile
     self%iexport_snapshot=1
     self%natom = natom
 
 
-    ! -- * initialize the class
-    call json%initialize()
+    ! ! -- TODO initialize the json object
+    ! ! -- * initialize the class
+    ! call json%initialize()
 
-    ! -- * initialize the structure:
-    call json%create_object(p,'')
+    ! ! -- * initialize the structure:
+    ! call json%create_object(p,'')
 
-   
+!    self%json = json
+!    self%p = p
 
 
     dimy = 1
@@ -392,43 +406,47 @@ subroutine initialize_qcschema(self, ierr)
        self%atom_symbol(i) = symbol(quick_molspec%iattype(i))
     end do
 
+    testy =1 
     ! -- * open file
     ! call quick_open(self%iQCSchemaFile,qcSchemaFileName,'U','F','R',.false.,ierr)
 
     ! write(self%iQCSchemaFile, '("[QCSchema Format]")')
 
 
+    ! -- TODO this is working code
+    ! ! -- * add an "inputs" object to the structure:
+    ! call json%create_object(inp,'inputs')
+    ! call json%add(p, inp) !add it to the root
 
-    ! -- * add an "inputs" object to the structure:
-    call json%create_object(inp,'inputs')
-    call json%add(p, inp) !add it to the root
+    ! ! -- * add some data to inputs:
+    ! call json%add(inp, 't0', 0.1_wp)
+    ! call json%add(inp, 'tf', 1.1_wp)
+    ! call json%add(inp, 'x0', 9999.0000d0)
+    ! call json%add(inp, 'integer_scalar', 787)
+    ! call json%add(inp, 'integer_array', [2,4,99])
+    ! call json%add(inp, 'names', ['aaa','bbb','ccc'])
+    ! call json%add(inp, 'logical_scalar', .true.)
+    ! call json%add(inp, 'logical_vector', [.true., .false., .true.])
+    ! nullify(inp)  !don't need this anymore
 
-    ! -- * add some data to inputs:
-    call json%add(inp, 't0', 0.1_wp)
-    call json%add(inp, 'tf', 1.1_wp)
-    call json%add(inp, 'x0', 9999.0000d0)
-    call json%add(inp, 'integer_scalar', 787)
-    call json%add(inp, 'integer_array', [2,4,99])
-    call json%add(inp, 'names', ['aaa','bbb','ccc'])
-    call json%add(inp, 'logical_scalar', .true.)
-    call json%add(inp, 'logical_vector', [.true., .false., .true.])
-    nullify(inp)  !don't need this anymore
+    ! ! -- * write the file:
+    ! call json%print(p, qcSchemaFileName)
 
-    ! -- * write the file:
-    call json%print(p, qcSchemaFileName)
-
-    ! -- * cleanup:
-    call json%destroy(p)
-    if (json%failed()) stop 1
+    ! ! -- * cleanup:
+    ! call json%destroy(p)
+    ! if (json%failed()) stop 1
 
 
 end subroutine initialize_qcschema
 
 subroutine finalize_qcschema(self, ierr)
 
+
     implicit none
     type (quick_qcschema_type), intent(inout) :: self
     integer, intent(out) :: ierr
+
+    integer :: testy
 
     ! deallocate memory
     if(allocated(self%atom_symbol)) deallocate(self%atom_symbol)
@@ -436,8 +454,22 @@ subroutine finalize_qcschema(self, ierr)
     if(allocated(self%e_snapshots)) deallocate(self%e_snapshots)
     if(allocated(self%xyz_snapshots)) deallocate(self%xyz_snapshots)
 
+
+    testy = 1
     ! close file
-    close(self%iQCSchemaFile)
+    ! close(self%iQCSchemaFile)
+
+    ! ! -- TODO write to file
+    ! ! -- * write the file:
+    ! call json%print(self%p, qcSchemaFileName)
+
+    ! write the file:
+    ! call json%print(p, qcSchemaFileName)
+
+    ! ! ! -- TODO  cleanup:
+    ! call json%destroy(p)
+    ! if (json%failed()) stop 1
+
 
 end subroutine finalize_qcschema
 
