@@ -150,9 +150,13 @@ subroutine write_coordinates(self, ierr)
         array_slice = self%xyz_snapshots(:, :, k)
         total_elements = size(array_slice)
 
+
+        allocate ( one_dim_reshaped (total_elements) )  
         one_dim_reshaped = reshape(array_slice, [total_elements])
 
         call self%json%add(inp, 'geometry', one_dim_reshaped )
+        
+        deallocate(one_dim_reshaped )
       else
         ! if it's a single point calculation we can use xyz
         ! we can't use xyz_snapshots because they have not been populated
