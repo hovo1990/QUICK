@@ -107,6 +107,7 @@ subroutine write_coordinates(self, ierr)
     type(json_value),pointer :: geometry
     integer, intent(out) :: ierr
     integer :: i, j, k
+    integer :: testC
 
     ! -- TODO working on keeping string
     character(len=20) :: input_string
@@ -128,25 +129,39 @@ subroutine write_coordinates(self, ierr)
     call self%json%add(inp, 'symbols', self%atom_symbol)
     ! call self%json%add(inp, 'tutusf', 1.1_wp)
 
+
     ! nullify(inp)  !don't need this anymore
 
+    ! -- TODO write atomic coordinates
+    if (self%opt) then
+        ! in case of geometry optimization write last stored geometry
+        ! we need to do this because optimizers may return the geometry
+        ! for the next step which may be stored in xyz
+        k = self%iexport_snapshot - 1
+        ! call self%json%add(inp, 'geometry', self%xyz_snapshots(:, :, k))
+      else
+        ! if it's a single point calculation we can use xyz
+        ! we can't use xyz_snapshots because they have not been populated
+        write(self%iQCSchemaFile, '(3(2x,F20.10))') (xyz(j,i),j=1,3)
+     endif
+    testC = 1
 
     ! -- * write atomic labels and coordinates
     ! write(self%iQCSchemaFile, '("[Atoms] (AU)")')
-    do i=1,natom
-        if (self%opt) then
-           ! in case of geometry optimization write last stored geometry
-           ! we need to do this because optimizers may return the geometry
-           ! for the next step which may be stored in xyz
-           k = self%iexport_snapshot - 1
-        !    write(self%iQCSchemaFile, '(3(2x,F20.10))') (self%xyz_snapshots(j,i,k),j=1,3)
-           write(*, '(3(2x,F20.10))') (self%xyz_snapshots(j, i, k), j = 1, 3)
-         else
-           ! if it's a single point calculation we can use xyz
-           ! we can't use xyz_snapshots because they have not been populated
-           write(self%iQCSchemaFile, '(3(2x,F20.10))') (xyz(j,i),j=1,3)
-        endif
-    enddo
+    ! do i=1,natom
+    !     if (self%opt) then
+    !        ! in case of geometry optimization write last stored geometry
+    !        ! we need to do this because optimizers may return the geometry
+    !        ! for the next step which may be stored in xyz
+    !        k = self%iexport_snapshot - 1
+    !     !    write(self%iQCSchemaFile, '(3(2x,F20.10))') (self%xyz_snapshots(j,i,k),j=1,3)
+    !        write(*, '(3(2x,F20.10))') (self%xyz_snapshots(j, i, k), j = 1, 3)
+    !      else
+    !        ! if it's a single point calculation we can use xyz
+    !        ! we can't use xyz_snapshots because they have not been populated
+    !        write(self%iQCSchemaFile, '(3(2x,F20.10))') (xyz(j,i),j=1,3)
+    !     endif
+    ! enddo
 
 end subroutine write_coordinates
 
