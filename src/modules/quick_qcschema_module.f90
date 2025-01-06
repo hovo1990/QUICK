@@ -138,6 +138,7 @@ subroutine write_coordinates(self, ierr)
         ! we need to do this because optimizers may return the geometry
         ! for the next step which may be stored in xyz
         k = self%iexport_snapshot - 1
+        print *, 'Stop Here'
         ! call self%json%add(inp, 'geometry', self%xyz_snapshots(:, :, k))
       else
         ! if it's a single point calculation we can use xyz

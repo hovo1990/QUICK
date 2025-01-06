@@ -5,6 +5,7 @@
     // -- TODO these sets the arguments for cmake tools
     "cmake.configureArgs": [
         "-DCOMPILER=GNU",
+        "-DCMAKE_CXX_FLAGS='-O0'", // -- TODO for full debug mode, so the compiler does not omit intermediate results
         "-DCMAKE_INSTALL_PREFIX=${workspaceFolder}/../install",
         "-DCUDA=TRUE",
         "-DMPI=TRUE",
