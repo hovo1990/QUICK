@@ -428,14 +428,44 @@ subroutine initialize_qcschema(self, ierr)
 
     ! -- TODO this is working code
     ! ! -- * add an "inputs" object to the structure:
-    call self%json%create_object(inp,'inputs')
-    call self%json%add(self%p, inp) !add it to the root
+    ! call self%json%create_object(inp,'inputs')
+    ! call self%json%add(self%p, inp) !add it to the root
 
-    ! ! -- * add some data to inputs:
-    call self%json%add(inp, 't0', 0.1_wp)
-    call self%json%add(inp, 'tf', 1.1_wp)
+    ! ! ! -- * add some data to inputs:
+    ! call self%json%add(inp, 't0', 0.1_wp)
+    ! call self%json%add(inp, 'tf', 1.1_wp)
 
-    nullify(inp)  !don't need this anymore
+    ! nullify(inp)  !don't need this anymore
+
+    ! ! -- * write the file:
+    ! call self%json%print(self%p, qcSchemaFileName)
+
+    ! ! -- * cleanup:
+    ! call self%json%destroy(self%p)
+    ! if (self%json%failed()) stop 1
+
+
+end subroutine initialize_qcschema
+
+subroutine finalize_qcschema(self, ierr)
+
+    use quick_files_module, only : iQCSchemaFile, qcSchemaFileName
+    implicit none
+    type (quick_qcschema_type), intent(inout) :: self
+    integer, intent(out) :: ierr
+    type(json_value),pointer :: inp
+
+
+    ! -- TODO working code, for debug
+    ! call self%json%create_object(inp,'inputs')
+    ! call self%json%add(self%p, inp) !add it to the root
+
+    ! ! ! -- * add some data to inputs:
+    ! call self%json%add(inp, 'tutus0', 0.1_wp)
+    ! call self%json%add(inp, 'tutusf', 1.1_wp)
+
+    ! nullify(inp)  !don't need this anymore
+
 
     ! -- * write the file:
     call self%json%print(self%p, qcSchemaFileName)
@@ -443,25 +473,6 @@ subroutine initialize_qcschema(self, ierr)
     ! -- * cleanup:
     call self%json%destroy(self%p)
     if (self%json%failed()) stop 1
-
-
-end subroutine initialize_qcschema
-
-subroutine finalize_qcschema(self, ierr)
-
-
-    implicit none
-    type (quick_qcschema_type), intent(inout) :: self
-    integer, intent(out) :: ierr
-
-
-    ! ! -- TODO write to file
-    ! ! -- * write the file:
-    ! call self%json%print(self%p, qcSchemaFileName)
-
-    ! ! ! ! -- TODO  cleanup:
-    ! call self%json%destroy(self%p)
-    ! if (self%json%failed()) stop 1
 
 
     ! deallocate memory
