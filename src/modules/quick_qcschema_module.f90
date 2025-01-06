@@ -100,23 +100,47 @@ subroutine write_coordinates(self, ierr)
 
     use quick_molspec_module, only: quick_molspec, xyz, natom
     use quick_constants_module, only : symbol, BOHRS_TO_A
-    ! use json_module
+    use json_module
     implicit none
-    type (quick_qcschema_type), intent(in) :: self
+    type (quick_qcschema_type), intent(inout) :: self
+    type(json_value),pointer :: inp
+    type(json_value),pointer :: geometry
     integer, intent(out) :: ierr
     integer :: i, j, k
 
-    ! write atomic labels and coordinates
-    write(self%iQCSchemaFile, '("[Atoms] (AU)")')
+    ! -- TODO working on keeping string
+    character(len=20) :: input_string
+    character(len=:), allocatable :: trimmed_string    
+
+    
+
+
+    ! -- TODO working code, for debug
+    ! call self%json%create_object(inp,'writeCoordinates')
+    ! call self%json%add(self%p, inp) !add it to the root
+
+
+    call self%json%create_object(inp,'molecule')
+    call self%json%add(self%p, inp) !add it to the root
+
+
+    ! ! ! -- * add some data to inputs:
+    call self%json%add(inp, 'symbols', self%atom_symbol)
+    ! call self%json%add(inp, 'tutusf', 1.1_wp)
+
+    ! nullify(inp)  !don't need this anymore
+
+
+    ! -- * write atomic labels and coordinates
+    ! write(self%iQCSchemaFile, '("[Atoms] (AU)")')
     do i=1,natom
-        write(self%iQCSchemaFile,'(2x,A2,4x,I5,4x,I3)',advance='no') &
-             symbol(quick_molspec%iattype(i)), i, quick_molspec%iattype(i)
         if (self%opt) then
            ! in case of geometry optimization write last stored geometry
            ! we need to do this because optimizers may return the geometry
            ! for the next step which may be stored in xyz
            k = self%iexport_snapshot - 1
-           write(self%iQCSchemaFile, '(3(2x,F20.10))') (self%xyz_snapshots(j,i,k),j=1,3)
+        !    write(self%iQCSchemaFile, '(3(2x,F20.10))') (self%xyz_snapshots(j,i,k),j=1,3)
+           write(*, '(3(2x,F20.10))') (self%xyz_snapshots(j, i, k), j = 1, 3)
          else
            ! if it's a single point calculation we can use xyz
            ! we can't use xyz_snapshots because they have not been populated
@@ -218,9 +242,6 @@ subroutine write_mo(self, ierr)
     use quick_scratch_module
     use quick_molspec_module, only: quick_molspec
     use quick_method_module, only: quick_method
-
-    ! -- TODO use json_module
-    use json_module
 
     implicit none
     type (quick_qcschema_type), intent(inout) :: self
@@ -384,11 +405,6 @@ subroutine initialize_qcschema(self, ierr)
 
 
 
-    ! ! -- TODO Allocate pointers for json
-    ! allocate(self%json)
-    ! allocate(self%p)
-    ! testy=1
-
     ! ! -- TODO initialize the json object
     ! ! -- * initialize the class
     call self%json%initialize()
@@ -453,11 +469,11 @@ subroutine finalize_qcschema(self, ierr)
     implicit none
     type (quick_qcschema_type), intent(inout) :: self
     integer, intent(out) :: ierr
-    type(json_value),pointer :: inp
+    ! type(json_value),pointer :: inp
 
 
     ! -- TODO working code, for debug
-    ! call self%json%create_object(inp,'inputs')
+    ! call self%json%create_object(inp,'finalizeQCSchema')
     ! call self%json%add(self%p, inp) !add it to the root
 
     ! ! ! -- * add some data to inputs:
