@@ -108,14 +108,22 @@ subroutine write_coordinates(self, ierr)
     integer, intent(out) :: ierr
     integer :: i, j, k
     integer :: testC
+    integer :: nx, ny, nz
+    real, allocatable :: array_slice(:,:)
+    real, allocatable :: one_dim_reshaped(:)
+    integer :: total_elements
 
-    ! -- TODO working on keeping string
-    character(len=20) :: input_string
-    character(len=:), allocatable :: trimmed_string    
+    ! -- TODO simple example
+    ! integer, dimension(3, 3) :: two_dim_array = reshape((/ 1, 2, 3, 4, 5, 6, 7, 8, 9 /), [3, 3])
+    ! integer, dimension(9) :: one_dim_array
 
     
+    ! ! Calculate the total number of elements in the 2D array
+    ! total_elements = size(two_dim_array)
 
-
+    ! ! Convert 2D to 1D using reshape
+    ! one_dim_array = reshape(two_dim_array, [total_elements])
+    
     ! -- TODO working code, for debug
     ! call self%json%create_object(inp,'writeCoordinates')
     ! call self%json%add(self%p, inp) !add it to the root
@@ -139,7 +147,12 @@ subroutine write_coordinates(self, ierr)
         ! for the next step which may be stored in xyz
         k = self%iexport_snapshot - 1
         print *, 'Stop Here'
-        ! call self%json%add(inp, 'geometry', self%xyz_snapshots(:, :, k))
+        array_slice = self%xyz_snapshots(:, :, k)
+        total_elements = size(array_slice)
+
+        one_dim_reshaped = reshape(array_slice, [total_elements])
+
+        call self%json%add(inp, 'geometry', one_dim_reshaped )
       else
         ! if it's a single point calculation we can use xyz
         ! we can't use xyz_snapshots because they have not been populated
