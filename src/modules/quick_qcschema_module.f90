@@ -154,8 +154,13 @@ subroutine write_coordinates(self, ierr)
         allocate ( one_dim_reshaped (total_elements) )  
         one_dim_reshaped = reshape(array_slice, [total_elements])
 
+        ! Loop through the array and assign each value with 10 digits after the decimal point
+        ! do i = 1, size(one_dim_reshaped )
+        !     one_dim_reshaped(i) = nint(one_dim_reshaped(i) * 1.0d10) / 1.0d10
+        !  end do
+
         call self%json%add(inp, 'geometry', one_dim_reshaped )
-        
+
         deallocate(one_dim_reshaped )
       else
         ! if it's a single point calculation we can use xyz
