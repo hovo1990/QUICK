@@ -14,7 +14,7 @@
     
 
 
-    // Configure tool-specific properties.
+    // -- * Configure tool-specific properties.
     "customizations": {
         // Configure properties specific to VS Code.
         "vscode": {
@@ -42,7 +42,7 @@
         }
     },
 
-    //-- * This is used to enable gpu for docker
+    // -- * This is used to enable gpu for docker
     "runArgs": ["--gpus","all"
     ],
 
