@@ -52,3 +52,11 @@ https://stackoverflow.com/questions/72129213/using-gpu-in-vs-code-container
 ----
 gfortran -g test.f90
 ----
+
+= Problems with QCSchema and QCElemental
+
+https://github.com/MolSSI/QCSchema/issues/68
+
+https://github.com/MolSSI/QCElemental
+
+https://github.com/MolSSI/QCElemental/pull/287
