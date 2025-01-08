@@ -58,6 +58,10 @@ gfortran -g test.f90
 If QCSchema is still alive, I'd suggest it should borrow what we did for Avogadro Chemical JSON
 https://github.com/MolSSI/QCSchema/issues/86
 
+
+There is also chemical json format
+https://github.com/OpenChemistry/chemicaljson
+
 https://github.com/MolSSI/QCSchema/issues/68
 
 https://github.com/MolSSI/QCElemental
