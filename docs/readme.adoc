@@ -55,6 +55,9 @@ gfortran -g test.f90
 
 = Problems with QCSchema and QCElemental
 
+If QCSchema is still alive, I'd suggest it should borrow what we did for Avogadro Chemical JSON
+https://github.com/MolSSI/QCSchema/issues/86
+
 https://github.com/MolSSI/QCSchema/issues/68
 
 https://github.com/MolSSI/QCElemental
