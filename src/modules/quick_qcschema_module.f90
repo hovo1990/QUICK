@@ -195,7 +195,7 @@ subroutine write_basis_info(self, ierr)
     use json_module
 
     implicit none
-    type (quick_qcschema_type), intent(in) :: self
+    type (quick_qcschema_type), intent(inout) :: self
     integer, intent(out) :: ierr
     integer :: iatom, ishell, ibas, iprim, nprim, j, ishell_idx
     logical :: print_gto

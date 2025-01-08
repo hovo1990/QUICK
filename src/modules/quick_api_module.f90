@@ -643,11 +643,19 @@ subroutine run_quick(self,ierr)
 #ifdef MPIV
      if(master) then
 #endif
+     ! -- * Stage 1: Export coordinates 
      call exportCoordinatesQC(quick_qcschema, ierr)
+
+     ! -- * Stage 2: Export Basis
      call exportBasisQC(quick_qcschema, ierr)
+
+     ! -- * Stage 3: Export MO
      call exportMOQC(quick_qcschema, ierr)
      if (quick_method%opt) then
+        ! -- * Stage 4: Export SCF
         call exportSCFQC(quick_qcschema, ierr)
+
+        ! -- * Stage 3: Export OPT
         call exportOPTQC(quick_qcschema, ierr)
      end if
 #ifdef MPIV
