@@ -121,7 +121,7 @@ subroutine write_basis_info(self, ierr)
     logical :: print_gto
     double precision :: val_gccoeff, xnorm
 
-    ! write basis function information
+    ! -- * write basis function information
     write(self%iMoldenFile, '("[GTO] (AU)")')
     do iatom=1, natom
         write(self%iMoldenFile, '(2x, I5)') iatom

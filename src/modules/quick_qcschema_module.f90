@@ -480,6 +480,14 @@ subroutine initialize_qcschema(self, ierr)
     ! write(self%iQCSchemaFile, '("[QCSchema Format]")')
 
 
+    ! -- TODO Write schema-name and schema version
+    ! call self%json%create_object(inp,'')
+    ! call self%json%add(self%p, inp) !add it to the root
+    call self%json%add(self%p, 'schema_name', "qc_schema_output")
+    call self%json%add(self%p, 'schema_version', 1)
+
+
+
     ! -- TODO this is working code
     ! ! -- * add an "inputs" object to the structure:
     ! call self%json%create_object(inp,'inputs')
