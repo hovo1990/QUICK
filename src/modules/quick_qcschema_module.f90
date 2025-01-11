@@ -163,8 +163,9 @@ subroutine write_coordinates(self, ierr)
 
         deallocate(one_dim_reshaped )
       else
-        ! if it's a single point calculation we can use xyz
-        ! we can't use xyz_snapshots because they have not been populated
+        ! -- TODO if it's a single point calculation we can use xyz
+        ! -- TODO we can't use xyz_snapshots because they have not been populated
+        print *, 'Stop Here'
         write(self%iQCSchemaFile, '(3(2x,F20.10))') (xyz(j,i),j=1,3)
      endif
     testC = 1
@@ -201,6 +202,8 @@ subroutine write_basis_info(self, ierr)
     logical :: print_gto
     double precision :: val_gccoeff, xnorm
 
+
+    print *, 'Stop Here'
     ! write basis function information
     write(self%iQCSchemaFile, '("[GTO] (AU)")')
     do iatom=1, natom
