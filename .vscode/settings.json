@@ -3,8 +3,10 @@
     "fortran.logging.level": "Debug",
     "fortran.fortls.path": "/usr/local/bin/fortls",
     // -- TODO these sets the arguments for cmake tools
+    "fortran.debugging.compilerArgs": ["-g", "-O0", "-fno-automatic", "-fbacktrace", "-fcheck=all"],
     "cmake.configureArgs": [
         "-DCOMPILER=GNU",
+        "-DCMAKE_Fortran_FLAGS='-O0'",
         "-DCMAKE_CXX_FLAGS='-O0'", // -- TODO for full debug mode, so the compiler does not omit intermediate results
         "-DCMAKE_INSTALL_PREFIX=${workspaceFolder}/../install",
         "-DCUDA=TRUE",
