@@ -25,6 +25,9 @@ cmake .. -DCOMPILER=GNU -DCMAKE_INSTALL_PREFIX=$(pwd)/../install -DCUDA=TRUE -DM
 #-- Test 2 still optimized out
 cmake .. -DCOMPILER=GNU -DCMAKE_INSTALL_PREFIX=$(pwd)/../install -DCUDA=TRUE -DMPI=TRUE -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS="-O0" -DCMAKE_Fortran_FLAGS="-O0" --graphviz=quick.dot
 
+#-- Test 3 look for CMake-Options.md
+cmake .. -DCOMPILER=GNU -DCMAKE_INSTALL_PREFIX=$(pwd)/../install -DCUDA=TRUE -DMPI=TRUE -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS="-O0" -DCMAKE_Fortran_FLAGS="-O0" -DCMAKE_C_FLAGS="-O0" -DQUICK_DEBUG=TRUE -DOPTIMIZE=FALSE --graphviz=quick.dot
+
 
 
 # -- * working

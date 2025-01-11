@@ -12,6 +12,7 @@
         "-DCUDA=TRUE",
         "-DMPI=TRUE",
         "-DCMAKE_BUILD_TYPE=Debug",
+        "-DQUICK_DEBUG=TRUE ",
         "--graphviz=quick.dot"
     ],
     "cmake.configureOnOpen": false,
