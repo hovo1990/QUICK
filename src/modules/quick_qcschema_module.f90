@@ -184,7 +184,8 @@ end subroutine write_coordinates
 subroutine write_basis_info(self, ierr)
 
     use quick_basis_module, only: quick_basis, nshell, nbasis, ncontract
-    use quick_molspec_module, only: natom
+    use quick_method_module, only: quick_method
+    use quick_molspec_module, only: natom,quick_molspec
     use json_module
 
     implicit none
