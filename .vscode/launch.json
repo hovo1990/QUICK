@@ -6,10 +6,20 @@
     "configurations": [
       {
         "name": "(gdb) Fortran",
-        "type": "cppdbg",
+
+        // -- TODO regular dgb
+        // "type": "cppdbg", 
+
+        // -- TODO for nvidia-cuda
+        "type": "cuda-gdb",
+
         "request": "launch",
-        "program": "${workspaceFolder}/install/bin/quick.cuda", // -- TODO gpu debug
-        // "program": "${workspaceFolder}/install/bin/quick", // -- TODO cpu debug easier to debug 
+
+        // -- TODO gpu debug
+        "program": "${workspaceFolder}/install/bin/quick.cuda", 
+
+        // -- TODO cpu debug easier to debug
+        // "program": "${workspaceFolder}/install/bin/quick",  
 
 
         // "args": ["${workspaceFolder}/docs/examples/meth_molden.xyz"], // Possible input molden for quick.cuda
@@ -18,12 +28,17 @@
         "env": { "QUICK_BASIS" : "${workspaceFolder}/install/basisinstall/basis"},  //-- ! Buggy Replace "value_here" with the desired value
         "stopAtEntry": false,
         "cwd": "${workspaceFolder}",
+        
         "externalConsole": false,
-        "MIMode": "gdb",
 
         
-        "miDebuggerPath": "/usr/local/cuda/bin/cuda-gdb", // -- TODO Path to cuda-gdb for cuda debugging
-        // "miDebuggerPath": "/usr/bin/gdb", // -- TODO Path to gdb for regular debugging
+        "MIMode": "gdb",
+
+        // -- TODO Path to cuda-gdb for cuda debugging
+        "miDebuggerPath": "/usr/local/cuda/bin/cuda-gdb", 
+
+        // -- TODO Path to gdb for regular debugging
+        // "miDebuggerPath": "/usr/bin/gdb", 
         "setupCommands": [
           {
             "description": "Enable pretty-printing for gdb",
