@@ -37,7 +37,10 @@
                 "tintinweb.graphviz-interactive-preview",
                 "edwinhuish.better-comments-next",
                 "IBM.output-colorizer",
-                "naumovs.color-highlight"
+                "naumovs.color-highlight",
+                "NVIDIA.nsight-vscode-edition",
+                "ms-vscode.cpptools"
+
             ]
         }
     },
