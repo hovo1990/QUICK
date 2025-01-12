@@ -195,7 +195,7 @@ subroutine write_basis_info(self, ierr)
     logical :: print_gto
     double precision :: val_gccoeff, xnorm
 
-
+    ! -- ! Example: https://github.com/MolSSI/QCSchema/blob/master/tests/wavefunction/water_output_v3.json
     print *, 'Stop Here'
     ! -- * write basis function information
     ! write(self%iQCSchemaFile, '("[GTO] (AU)")')
@@ -228,7 +228,7 @@ subroutine write_basis_info(self, ierr)
                         ! write(self%iQCSchemaFile, '(2E20.10)') &
                         ! quick_basis%gcexpo(iprim,ishell_idx), quick_basis%unnorm_gccoeff(iprim,ishell_idx)
                     enddo
-                    write(self%iQCSchemaFile, '(2x, "p", 4x, I2)') nprim
+                    ! write(self%iQCSchemaFile, '(2x, "p", 4x, I2)') nprim
                     do iprim=1, nprim
                         ishell_idx=quick_basis%ksumtype(ishell)
                         ! write(self%iQCSchemaFile, '(2E20.10)') &
