@@ -8,10 +8,10 @@
         "name": "(gdb) Fortran",
 
         // -- TODO regular dgb
-        // "type": "cppdbg", 
+        "type": "cppdbg", 
 
         // -- TODO for nvidia-cuda
-        "type": "cuda-gdb",
+        // "type": "cuda-gdb",
 
         "request": "launch",
 
@@ -26,19 +26,25 @@
         "args": ["${workspaceFolder}/docs/examples/meth_qcschema.xyz"], // -- * for geometry optimization
         // "args": ["${workspaceFolder}/docs/examples/meth_qcschema_noptim.xyz"], // -- * for geometry optimization
         "env": { "QUICK_BASIS" : "${workspaceFolder}/install/basisinstall/basis"},  //-- ! Buggy Replace "value_here" with the desired value
+        
+        // -- ! cuda-gdb suggested fix https://forums.developer.nvidia.com/t/vscode-debug-matrixmul-example-fails-with-cuda-driver-has-hit-an-internal-error/239437/2
+        "envFile": "${workspaceFolder}/vscode_var_env.env",
         "stopAtEntry": false,
         "cwd": "${workspaceFolder}",
         
         "externalConsole": false,
 
         
-        "MIMode": "gdb",
+        
 
         // -- TODO Path to cuda-gdb for cuda debugging
-        "miDebuggerPath": "/usr/local/cuda/bin/cuda-gdb", 
+        // "MIMode": "cuda-gdb",
+        // "miDebuggerPath": "/usr/local/cuda/bin/cuda-gdb", 
 
         // -- TODO Path to gdb for regular debugging
-        // "miDebuggerPath": "/usr/bin/gdb", 
+        "MIMode": "gdb",
+        "miDebuggerPath": "/usr/bin/gdb", 
+
         "setupCommands": [
           {
             "description": "Enable pretty-printing for gdb",

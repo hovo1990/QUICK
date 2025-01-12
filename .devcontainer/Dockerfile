@@ -27,9 +27,10 @@ RUN apt-get update -y \
     wget \
     build-essential \
     unzip \
-    graphviz \
-    # -- ! https://forums.developer.nvidia.com/t/vscode-debug-matrixmul-example-fails-with-cuda-driver-has-hit-an-internal-error/239437/2
-    libcudadebugger1
+    graphviz 
+
+# -- ! https://forums.developer.nvidia.com/t/vscode-debug-matrixmul-example-fails-with-cuda-driver-has-hit-an-internal-error/239437/2
+# libcudadebugger1
 
 
 # -- * Install newest cmake from official kitware apt repository
