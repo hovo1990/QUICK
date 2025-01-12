@@ -367,7 +367,7 @@ subroutine write_scf(self, ierr)
     integer :: i, j
     character(len=9) :: label
 
-    write(self%iQCSchemaFile, '("[SCFCONV]")')
+    ! write(self%iQCSchemaFile, '("[SCFCONV]")')
 
     do i=1, self%iexport_snapshot-1
        if (i == 1) then
@@ -377,10 +377,11 @@ subroutine write_scf(self, ierr)
        else
           label = "scf"
        end if
-       write(self%iQCSchemaFile, '(2x, a, 2x, I3, 2x, "THROUGH", 2x, I3)') trim(label), 1, self%nscf_snapshots(i)
-        do j=1, self%nscf_snapshots(i)
-            write(self%iQCSchemaFile, '(2x, E16.10)') self%e_snapshots(j,i)
-        enddo
+    ! -- TODO cpu version Error here
+    !    write(self%iQCSchemaFile, '(2x, a, 2x, I3, 2x, "THROUGH", 2x, I3)') trim(label), 1, self%nscf_snapshots(i)
+    !     do j=1, self%nscf_snapshots(i)
+    !         write(self%iQCSchemaFile, '(2x, E16.10)') self%e_snapshots(j,i)
+    !     enddo
     enddo
 
 end subroutine write_scf
@@ -395,23 +396,25 @@ subroutine write_opt(self, ierr)
     character(len=8) :: lbl1
     character(len=2) :: lbl2
 
-    write(self%iQCSchemaFile, '("[GEOCONV]")')
+    ! write(self%iQCSchemaFile, '("[GEOCONV]")')
 
-    write(self%iQCSchemaFile, '("energy")')
-    do i=1, self%iexport_snapshot-1
-        write(self%iQCSchemaFile, '(2x, E16.10)') self%e_snapshots(self%nscf_snapshots(i),i)
-    enddo
+    ! write(self%iQCSchemaFile, '("energy")')
 
-    write(self%iQCSchemaFile, '("[GEOMETRIES] (XYZ)")')
+    ! do i=1, self%iexport_snapshot-1
+    !     ! -- TODO cpu quick error here
+    !     write(self%iQCSchemaFile, '(2x, E16.10)') self%e_snapshots(self%nscf_snapshots(i),i)
+    ! enddo
 
-    do k=1, self%iexport_snapshot-1
-       write(self%iQCSchemaFile, '(2x, I5)') self%natom
-       write(self%iQCSchemaFile, '("")')
-        do i=1,self%natom
-           write(self%iQCSchemaFile,'(A2, 2x, 3F14.6)') &
-                self%atom_symbol(i), (self%xyz_snapshots(j,i,k)*BOHRS_TO_A,j=1,3)
-        enddo    
-    enddo
+    ! write(self%iQCSchemaFile, '("[GEOMETRIES] (XYZ)")')
+
+    ! do k=1, self%iexport_snapshot-1
+    !    write(self%iQCSchemaFile, '(2x, I5)') self%natom
+    !    write(self%iQCSchemaFile, '("")')
+    !     do i=1,self%natom
+    !        write(self%iQCSchemaFile,'(A2, 2x, 3F14.6)') &
+    !             self%atom_symbol(i), (self%xyz_snapshots(j,i,k)*BOHRS_TO_A,j=1,3)
+    !     enddo    
+    ! enddo
 
 end subroutine write_opt
 
@@ -481,6 +484,17 @@ subroutine initialize_qcschema(self, ierr)
     ! call self%json%add(self%p, inp) !add it to the root
     call self%json%add(self%p, 'schema_name', "qc_schema_output")
     call self%json%add(self%p, 'schema_version', 1)
+
+    ! -- TODO add provenance
+    call self%json%create_object(inp,'provenance')
+    call self%json%add(self%p, inp) !add it to the root
+
+    call self%json%add(inp, 'creator', 'QUICK')
+    call self%json%add(inp, 'version', '24.03')
+
+
+    ! -- TODO write driver type energy grad or hessian 
+
     print *, 'Stop Here'
 
 
