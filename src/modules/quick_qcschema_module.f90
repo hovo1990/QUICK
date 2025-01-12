@@ -29,28 +29,28 @@ module quick_qcschema_module
     type quick_qcschema_type
       integer :: iQCSchemaFile
 
-      ! true if this a geometry optimization
+      ! -- * true if this a geometry optimization
       logical :: opt
       
-      ! number of atoms in molecule
+      ! -- * number of atoms in molecule
       integer :: natom
 
-      ! atom symbols
+      ! -- * atom symbols
       character(len=2), allocatable :: atom_symbol(:)
 
-      ! number of scf iterations to converge
+      ! -- * number of scf iterations to converge
       integer, dimension(:), allocatable :: nscf_snapshots
 
-      ! scf energy during each iteration
+      ! -- * scf energy during each iteration
       double precision,dimension(:,:),allocatable :: e_snapshots
 
-      ! geometry during optimization
+      ! -- * geometry during optimization
       double precision,dimension(:,:,:),allocatable :: xyz_snapshots
 
-      ! counter to keep track of number of snapshots
+      ! -- * counter to keep track of number of snapshots
       integer :: iexport_snapshot
     
-      ! temporary vector for reorganizing mo coefficients
+      ! -- * temporary vector for reorganizing mo coefficients
       double precision, dimension(:), allocatable :: reord_mo_vec
 
       ! -- TODO initiliazing json objects
@@ -111,6 +111,7 @@ subroutine write_coordinates(self, ierr)
     integer :: nx, ny, nz
     real, allocatable :: array_slice(:,:)
     real, allocatable :: one_dim_reshaped(:)
+    real, allocatable, dimension(:) :: s
     integer :: total_elements
 
     ! -- TODO simple example
@@ -166,26 +167,17 @@ subroutine write_coordinates(self, ierr)
         ! -- TODO if it's a single point calculation we can use xyz
         ! -- TODO we can't use xyz_snapshots because they have not been populated
         print *, 'Stop Here'
-        write(self%iQCSchemaFile, '(3(2x,F20.10))') (xyz(j,i),j=1,3)
-     endif
-    testC = 1
 
-    ! -- * write atomic labels and coordinates
-    ! write(self%iQCSchemaFile, '("[Atoms] (AU)")')
-    ! do i=1,natom
-    !     if (self%opt) then
-    !        ! in case of geometry optimization write last stored geometry
-    !        ! we need to do this because optimizers may return the geometry
-    !        ! for the next step which may be stored in xyz
-    !        k = self%iexport_snapshot - 1
-    !     !    write(self%iQCSchemaFile, '(3(2x,F20.10))') (self%xyz_snapshots(j,i,k),j=1,3)
-    !        write(*, '(3(2x,F20.10))') (self%xyz_snapshots(j, i, k), j = 1, 3)
-    !      else
-    !        ! if it's a single point calculation we can use xyz
-    !        ! we can't use xyz_snapshots because they have not been populated
-    !        write(self%iQCSchemaFile, '(3(2x,F20.10))') (xyz(j,i),j=1,3)
-    !     endif
-    ! enddo
+        array_slice = quick_molspec%xyz
+        total_elements = size(array_slice)
+        allocate ( one_dim_reshaped (total_elements) )  
+        one_dim_reshaped = reshape(array_slice, [total_elements])
+        call self%json%add(inp, 'geometry', one_dim_reshaped )
+        deallocate(one_dim_reshaped )
+     endif
+    print *, 'Stop Here'
+
+
 
 end subroutine write_coordinates
 
@@ -204,74 +196,74 @@ subroutine write_basis_info(self, ierr)
 
 
     print *, 'Stop Here'
-    ! write basis function information
-    write(self%iQCSchemaFile, '("[GTO] (AU)")')
+    ! -- * write basis function information
+    ! write(self%iQCSchemaFile, '("[GTO] (AU)")')
     do iatom=1, natom
-        write(self%iQCSchemaFile, '(2x, I5)') iatom
+        ! write(self%iQCSchemaFile, '(2x, I5)') iatom
 
-        ! s basis functions
+        ! -- * s basis functions
         do ishell=1, nshell
             if(quick_basis%katom(ishell) .eq. iatom) then
                 nprim = quick_basis%kprim(ishell)
                 if(quick_basis%ktype(ishell) .eq. 1) then
-                    write(self%iQCSchemaFile, '(2x, "s", 4x, I2)') nprim
+                    ! write(self%iQCSchemaFile, '(2x, "s", 4x, I2)') nprim
                     do iprim=1, nprim
                         ishell_idx=quick_basis%ksumtype(ishell)
-                        write(self%iQCSchemaFile, '(2E20.10)') &
-                        quick_basis%gcexpo(iprim,ishell_idx), quick_basis%unnorm_gccoeff(iprim,ishell_idx) 
+                        ! write(self%iQCSchemaFile, '(2E20.10)') &
+                        ! quick_basis%gcexpo(iprim,ishell_idx), quick_basis%unnorm_gccoeff(iprim,ishell_idx) 
                     enddo                    
                 endif
             endif
         enddo
 
-        ! s, p basis functions of sp shell
+        ! -- * s, p basis functions of sp shell
         do ishell=1, nshell
             if(quick_basis%katom(ishell) .eq. iatom) then
                 nprim = quick_basis%kprim(ishell)
                 if(quick_basis%ktype(ishell) .eq. 4) then
-                    write(self%iQCSchemaFile, '(2x, "s", 4x, I2)') nprim
+                    ! write(self%iQCSchemaFile, '(2x, "s", 4x, I2)') nprim
                     do iprim=1, nprim
                         ishell_idx=quick_basis%ksumtype(ishell)
-                        write(self%iQCSchemaFile, '(2E20.10)') &
-                        quick_basis%gcexpo(iprim,ishell_idx), quick_basis%unnorm_gccoeff(iprim,ishell_idx)
+                        ! write(self%iQCSchemaFile, '(2E20.10)') &
+                        ! quick_basis%gcexpo(iprim,ishell_idx), quick_basis%unnorm_gccoeff(iprim,ishell_idx)
                     enddo
                     write(self%iQCSchemaFile, '(2x, "p", 4x, I2)') nprim
                     do iprim=1, nprim
                         ishell_idx=quick_basis%ksumtype(ishell)
-                        write(self%iQCSchemaFile, '(2E20.10)') &
-                        quick_basis%gcexpo(iprim,ishell_idx), (quick_basis%unnorm_gccoeff(iprim,ishell_idx+1))
+                        ! write(self%iQCSchemaFile, '(2E20.10)') &
+                        ! quick_basis%gcexpo(iprim,ishell_idx), (quick_basis%unnorm_gccoeff(iprim,ishell_idx+1))
                     enddo
                 endif
             endif
         enddo
         
-        ! p, d, and f basis functions
+        ! -- * p, d, and f basis functions
         do ishell=1, nshell
             if(quick_basis%katom(ishell) .eq. iatom) then
                 nprim = quick_basis%kprim(ishell)
                 print_gto=.false.
                 if(quick_basis%ktype(ishell) .eq. 3) then
                     print_gto=.true.
-                    write(self%iQCSchemaFile, '(2x, "p", 4x, I2)') nprim
+                    ! write(self%iQCSchemaFile, '(2x, "p", 4x, I2)') nprim
                 elseif(quick_basis%ktype(ishell) .eq. 6) then
                     print_gto=.true.
-                    write(self%iQCSchemaFile, '(2x, "d", 4x, I2)') nprim
+                    ! write(self%iQCSchemaFile, '(2x, "d", 4x, I2)') nprim
                 elseif(quick_basis%ktype(ishell) .eq. 10) then
                     print_gto=.true.
-                    write(self%iQCSchemaFile, '(2x, "f", 4x, I2)') nprim
+                    ! write(self%iQCSchemaFile, '(2x, "f", 4x, I2)') nprim
                 endif
                 
                 do iprim=1, nprim
                     if(print_gto) then
                         ishell_idx=quick_basis%ksumtype(ishell)
-                        write(self%iQCSchemaFile, '(2E20.10)') &
-                        quick_basis%gcexpo(iprim,ishell_idx), quick_basis%unnorm_gccoeff(iprim,ishell_idx)
+                        ! write(self%iQCSchemaFile, '(2E20.10)') &
+                        ! quick_basis%gcexpo(iprim,ishell_idx), quick_basis%unnorm_gccoeff(iprim,ishell_idx)
                     endif
                 enddo
             endif
         enddo
 
-        write(self%iQCSchemaFile, '("")')
+        ! write(self%iQCSchemaFile, '("")')
     enddo
 
 end subroutine write_basis_info
@@ -488,7 +480,7 @@ subroutine initialize_qcschema(self, ierr)
     ! call self%json%add(self%p, inp) !add it to the root
     call self%json%add(self%p, 'schema_name', "qc_schema_output")
     call self%json%add(self%p, 'schema_version', 1)
-
+    print *, 'Stop Here'
 
 
     ! -- TODO this is working code

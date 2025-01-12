@@ -94,10 +94,10 @@ subroutine finalize(io,ierr,option)
     !-------------------MPI/MASTER---------------------------------------
     if (master) then
 
-        ! finalize data exporting
+        ! -- * finalize data exporting
         if(write_molden) call finalizeExport(quick_molden, ierr)
 
-        ! finalize data exporting QCSchema
+        ! -- *  finalize data exporting QCSchema
         if(write_qcschema) call finalizeExportQC(quick_qcschema, ierr)
 
 
