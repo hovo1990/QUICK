@@ -10,6 +10,8 @@
         "request": "launch",
         "program": "${workspaceFolder}/install/bin/quick.cuda", // -- TODO gpu debug
         // "program": "${workspaceFolder}/install/bin/quick", // -- TODO cpu debug easier to debug 
+
+
         // "args": ["${workspaceFolder}/docs/examples/meth_molden.xyz"], // Possible input molden for quick.cuda
         "args": ["${workspaceFolder}/docs/examples/meth_qcschema.xyz"], // -- * for geometry optimization
         // "args": ["${workspaceFolder}/docs/examples/meth_qcschema_noptim.xyz"], // -- * for geometry optimization
@@ -18,6 +20,8 @@
         "cwd": "${workspaceFolder}",
         "externalConsole": false,
         "MIMode": "gdb",
+
+        
         "miDebuggerPath": "/usr/local/cuda/bin/cuda-gdb", // -- TODO Path to cuda-gdb for cuda debugging
         // "miDebuggerPath": "/usr/bin/gdb", // -- TODO Path to gdb for regular debugging
         "setupCommands": [
