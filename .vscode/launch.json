@@ -16,10 +16,10 @@
         "request": "launch",
 
         // -- TODO gpu debug
-        "program": "${workspaceFolder}/install/bin/quick.cuda", 
+        // "program": "${workspaceFolder}/install/bin/quick.cuda", 
 
-        // -- TODO cpu debug easier to debug
-        // "program": "${workspaceFolder}/install/bin/quick",  
+        // -- TODO cpu debug easier to debug, full variables visible
+        "program": "${workspaceFolder}/install/bin/quick",  
 
 
         // "args": ["${workspaceFolder}/docs/examples/meth_molden.xyz"], // Possible input molden for quick.cuda
