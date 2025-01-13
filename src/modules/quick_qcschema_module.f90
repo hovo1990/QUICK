@@ -201,12 +201,14 @@ subroutine write_basis_info(self, ierr)
     real :: temp_coef, temp_expon
     real, allocatable :: coef(:)
     real, allocatable :: expon(:)
+    character(len=20),  allocatable :: atom_map_to_use(:)  ! Array of 3 strings, each of length 10
 
 
     ! -- ! Example: https://github.com/MolSSI/QCSchema/blob/master/tests/wavefunction/water_output_v3.json
     type(json_value),pointer :: j_wavefunction
     type(json_value),pointer :: j_basis
     type(json_value),pointer :: j_center_data
+    type(json_value),pointer :: j_atom_map
     type(json_value),pointer :: j_curr_atom
     type(json_value),pointer :: j_temp_electron_shell
     type(json_value),pointer :: j_main_electron_shells
@@ -236,11 +238,13 @@ subroutine write_basis_info(self, ierr)
 
     call self%json%create_object(j_center_data,'center_data')
 
+    
+
     call self%json%create_object(j_wavefunction,'wavefunction')
 
 
 
-
+    call self%json%create_array(j_atom_map,'atom_map')
 
 
 
@@ -249,6 +253,10 @@ subroutine write_basis_info(self, ierr)
     ! write(self%iQCSchemaFile, '("[GTO] (AU)")')
     do iatom=1, natom
         ! write(self%iQCSchemaFile, '(2x, I5)') iatom
+
+        ! allocate(atom_map_to_use(0)) 
+        ! atom_map_to_use = (/ atom_map_to_use, "atom_" // trim(basisSetName) // "_" //  self%atom_symbol(iatom) /)
+        ! atom_map_to_use = (/ atom_map_to_use, 'testYO' /)
 
         ! -- TODO need to improve this part
         call self%json%create_object(j_curr_atom, "atom_" // trim(basisSetName) // "_" //  self%atom_symbol(iatom))
@@ -419,7 +427,7 @@ subroutine write_basis_info(self, ierr)
 
             endif
             
-
+             
         enddo
         print *, ' Debug> Here'
 
@@ -429,6 +437,7 @@ subroutine write_basis_info(self, ierr)
 
         ! call self%json%add( j_main_electron_shells, e) !-- * add j_temp_electron_shell to j_main_electron_shells
         nullify(j_temp_electron_shell)  !don't need this anymore
+        nullify(j_atom_map) 
 
         ! -- TODO add electron_shells to atom
         ! call self%json%add( j_curr_atom, j_main_electron_shells) !-- * add electron_shells to atom
@@ -442,10 +451,14 @@ subroutine write_basis_info(self, ierr)
     ! -- TODO append to the main structure
     call self%json%add(j_basis,j_center_data) !-- * add center_data to basis
 
+    ! call self%json%add(j_basis,j_atom_map_to_use) !-- * add center_data to basis
+    call self%json%add(j_basis, 'atom_map', ['test1','test2'])
+
+
     call self%json%add(j_wavefunction, j_basis) !add basis to wavefunction section
     call self%json%add(self%p, j_wavefunction) !add wavefunction section to the main structure
 
-
+    ! deallocate(atom_map_to_use)  
 
 end subroutine write_basis_info
 

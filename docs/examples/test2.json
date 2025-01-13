@@ -166,7 +166,11 @@
             }
           ]
         }
-      }
+      },
+      "atom_map": [
+        "test1",
+        "test2"
+      ]
     }
   },
   "success": true
