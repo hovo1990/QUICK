@@ -562,7 +562,7 @@ subroutine finalize_qcschema(self, ierr)
     implicit none
     type (quick_qcschema_type), intent(inout) :: self
     integer, intent(out) :: ierr
-    ! type(json_value),pointer :: inp
+    type(json_value),pointer :: status
 
 
     ! -- TODO working code, for debug
@@ -574,6 +574,13 @@ subroutine finalize_qcschema(self, ierr)
     ! call self%json%add(inp, 'tutusf', 1.1_wp)
 
     ! nullify(inp)  !don't need this anymore
+
+    ! -- TODO write status code
+    if (ierr ==0) then
+        call self%json%add(self%p, 'success', .TRUE. )
+    else if (ierr /=0) then
+        call self%json%add(self%p, 'success', .FALSE. )
+    end if
 
 
     ! -- * write the file:
