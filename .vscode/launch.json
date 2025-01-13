@@ -24,7 +24,7 @@
 
         // "args": ["${workspaceFolder}/docs/examples/meth_molden.xyz"], // Possible input molden for quick.cuda
 
-        // -- * https://github.com/MolSSI/QCSchema/blob/master/tests/wavefunction/water_output_v3.json
+        // -- * Example: https://github.com/MolSSI/QCSchema/blob/master/tests/wavefunction/water_output_v3.json
         "args": ["${workspaceFolder}/docs/examples/test2.in"], // -- * for geometry optimization
         // "args": ["${workspaceFolder}/docs/examples/meth_qcschema_noptim.xyz"], // -- * for geometry optimization
         // "env": { "QUICK_BASIS" : "${workspaceFolder}/install/basisinstall/basis"},  //-- ! Buggy Replace "value_here" with the desired value

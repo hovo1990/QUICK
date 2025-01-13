@@ -238,11 +238,12 @@ subroutine write_basis_info(self, ierr)
 
         ! -- TODO define arrays for each atom,
         ! -- TODO add these dynamic arrays for these values: angular_momentrum, exponents, coefficients
-        print *, ' Debug> Here'
+        
         ! -- * s basis functions
         do ishell=1, nshell
             if(quick_basis%katom(ishell) .eq. iatom) then
                 nprim = quick_basis%kprim(ishell)
+                print *, ' Debug> Here'
                 if(quick_basis%ktype(ishell) .eq. 1) then
                     ! write(self%iQCSchemaFile, '(2x, "s", 4x, I2)') nprim
                     do iprim=1, nprim
