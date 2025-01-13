@@ -285,7 +285,7 @@ subroutine write_basis_info(self, ierr)
                         ! write(self%iQCSchemaFile, '(2E20.10)') &
                         ! quick_basis%gcexpo(iprim,ishell_idx), quick_basis%unnorm_gccoeff(iprim,ishell_idx) 
                     enddo   
-                    call self%json%add(j_temp_electron_shell, "coefficients", coef)  
+                    call self%json%add(j_temp_electron_shell, "coefficients", [coef])  
                     call self%json%add(j_temp_electron_shell, "exponents", expon)   
 
                     deallocate(coef)
@@ -320,7 +320,7 @@ subroutine write_basis_info(self, ierr)
                         expon = (/ expon, temp_expon /)
 
                     enddo
-                    call self%json%add(j_temp_electron_shell, "coefficients", coef)  
+                    call self%json%add(j_temp_electron_shell, "coefficients", [coef])  
                     call self%json%add(j_temp_electron_shell, "exponents", expon)   
 
                     deallocate(coef)
@@ -342,7 +342,7 @@ subroutine write_basis_info(self, ierr)
                         coef = (/ coef, temp_coef  /)
                         expon = (/ expon, temp_expon /)
                     enddo
-                    call self%json%add(j_temp_electron_shell, "coefficients", coef)  
+                    call self%json%add(j_temp_electron_shell, "coefficients", [coef])  
                     call self%json%add(j_temp_electron_shell, "exponents", expon)   
 
                     deallocate(coef)
@@ -384,13 +384,13 @@ subroutine write_basis_info(self, ierr)
                         ! quick_basis%gcexpo(iprim,ishell_idx), quick_basis%unnorm_gccoeff(iprim,ishell_idx)
                         allocate(coef(0))
                         allocate(expon(0))
-                        
+
                         temp_coef = quick_basis%unnorm_gccoeff(iprim,ishell_idx)
                         temp_expon = quick_basis%gcexpo(iprim,ishell_idx)
                         print *, ' Debug> Here'
                         coef = (/ coef, temp_coef  /)
                         expon = (/ expon, temp_expon /)
-                        call self%json%add(j_temp_electron_shell, "coefficients", coef)  
+                        call self%json%add(j_temp_electron_shell, "coefficients", [coef])  
                         call self%json%add(j_temp_electron_shell, "exponents", expon)   
         
                         deallocate(coef)
@@ -405,7 +405,8 @@ subroutine write_basis_info(self, ierr)
         print *, ' Debug> Here'
 
 
-        call self%json%add( j_main_electron_shells, j_temp_electron_shell) !-- * j_main_electron_shells
+        ! -- TODO this is not good
+        call self%json%add( j_main_electron_shells, j_temp_electron_shell) !-- * add j_temp_electron_shell to j_main_electron_shells
         nullify(j_temp_electron_shell)  !don't need this anymore
 
         ! -- TODO add electron_shells to atom
