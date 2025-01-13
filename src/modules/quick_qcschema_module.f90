@@ -147,7 +147,7 @@ subroutine write_coordinates(self, ierr)
         ! we need to do this because optimizers may return the geometry
         ! for the next step which may be stored in xyz
         k = self%iexport_snapshot - 1
-        print *, 'Stop Here'
+        print *, ' Debug> Here'
         array_slice = self%xyz_snapshots(:, :, k)
         total_elements = size(array_slice)
 
@@ -166,7 +166,7 @@ subroutine write_coordinates(self, ierr)
       else
         ! -- TODO if it's a single point calculation we can use xyz
         ! -- TODO we can't use xyz_snapshots because they have not been populated
-        print *, 'Stop Here'
+        print *, ' Debug> Here'
 
         array_slice = quick_molspec%xyz
         total_elements = size(array_slice)
@@ -175,7 +175,7 @@ subroutine write_coordinates(self, ierr)
         call self%json%add(inp, 'geometry', one_dim_reshaped )
         deallocate(one_dim_reshaped )
      endif
-    print *, 'Stop Here'
+    print *, ' Debug> Here'
 
 
 
@@ -186,6 +186,9 @@ subroutine write_basis_info(self, ierr)
     use quick_basis_module, only: quick_basis, nshell, nbasis, ncontract
     use quick_method_module, only: quick_method
     use quick_molspec_module, only: natom,quick_molspec
+
+    use quick_files_module, only : basisSetName,basisfilename
+    ! use quick_api_module, only : quick_api
     use json_module
 
     implicit none
@@ -195,12 +198,46 @@ subroutine write_basis_info(self, ierr)
     logical :: print_gto
     double precision :: val_gccoeff, xnorm
 
+
     ! -- ! Example: https://github.com/MolSSI/QCSchema/blob/master/tests/wavefunction/water_output_v3.json
-    print *, 'Stop Here'
+    type(json_value),pointer :: j_wavefunction
+    type(json_value),pointer :: j_basis
+    type(json_value),pointer :: j_center_data
+    type(json_value),pointer :: j_temp_atom_shell
+    type(json_value),pointer :: j_electron_shells
+
+
+    print *, ' Debug> Here'
     ! -- * write basis function information
+
+
+
+    ! -- * Add wavefunction 
+    call self%json%create_object(j_basis,'basis')
+
+    ! -- ! why the the hell basis file not found
+    call self%json%add(j_basis, 'name', trim(basisSetName) )
+
+    call self%json%add(j_basis, 'filename', trim(basisfilename) )
+    
+
+
+    call self%json%add(j_basis, 'description', "TODO" )
+
+    call self%json%create_object(j_wavefunction,'wavefunction')
+    call self%json%add(j_wavefunction, j_basis) !add it to the root
+    call self%json%add(self%p, j_wavefunction) !add it to the root
+
+
+
+
+
     ! write(self%iQCSchemaFile, '("[GTO] (AU)")')
     do iatom=1, natom
         ! write(self%iQCSchemaFile, '(2x, I5)') iatom
+
+        ! -- TODO define arrays for each atom,
+        ! -- TODO add these dynamic arrays for these values: angular_momentrum, exponents, coefficients
 
         ! -- * s basis functions
         do ishell=1, nshell
@@ -495,7 +532,7 @@ subroutine initialize_qcschema(self, ierr)
 
     ! -- TODO write driver type energy grad or hessian 
 
-    print *, 'Stop Here'
+    ! print *, ' Debug> Here'
 
 
     ! -- TODO this is working code

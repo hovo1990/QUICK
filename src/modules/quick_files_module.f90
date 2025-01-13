@@ -174,6 +174,7 @@ module quick_files_module
             search_keywd= "#" // trim(basisSetName)
             ! Check if the basis_link file exists
 
+            ! print *, ' Debug> Here'
             inquire(file=trim(basis_sets),exist=fexist)
             if (.not.fexist) then
                 call PrtErr(iOutFile,'basis_link file is not accessible.')

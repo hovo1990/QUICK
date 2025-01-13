@@ -1,7 +1,7 @@
 {
   "schema_name": "qc_schema_output",
   "schema_version": 1,
-  "Provenance": {
+  "provenance": {
     "creator": "QUICK",
     "version": "24.03"
   },
@@ -34,5 +34,12 @@
       -0.29017305374145508E+1,
       0.21859798431396484E+1
     ]
+  },
+  "wavefunction": {
+    "basis": {
+      "name": "",
+      "filename": "/workspaces/QUICK/install/basis/STO-3G.BAS",
+      "description": "TODO"
+    }
   }
 }

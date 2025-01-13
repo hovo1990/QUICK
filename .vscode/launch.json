@@ -28,7 +28,8 @@
         "env": { "QUICK_BASIS" : "${workspaceFolder}/install/basisinstall/basis"},  //-- ! Buggy Replace "value_here" with the desired value
         
         // -- ! cuda-gdb suggested fix https://forums.developer.nvidia.com/t/vscode-debug-matrixmul-example-fails-with-cuda-driver-has-hit-an-internal-error/239437/2
-        "envFile": "${workspaceFolder}/vscode_var_env.env",
+        // "envFile": "${workspaceFolder}/vscode_var_env.env",
+        
         "stopAtEntry": false,
         "cwd": "${workspaceFolder}",
         
