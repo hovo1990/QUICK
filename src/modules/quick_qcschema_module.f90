@@ -257,7 +257,13 @@ subroutine write_basis_info(self, ierr)
         
 
         ! -- * initialize the structure:
-        call self%json%create_object(j_temp_electron_shell,'')
+        ! call self%json%create_object(j_temp_electron_shell,'')
+        ! -- ! https://github.com/jacobwilliams/json-fortran/issues/360
+        ! -- ! https://github.com/jacobwilliams/json-fortran/issues/300
+
+        ! -- TODO VIP look at this one: https://github.com/jacobwilliams/json-fortran/issues/237
+        ! -- TODO real vip https://github.com/jacobwilliams/json-fortran/issues/202
+        call self%json%create_array(j_temp_electron_shell,'')  ! empty array
 
 
         ! -- TODO define arrays for each atom,
