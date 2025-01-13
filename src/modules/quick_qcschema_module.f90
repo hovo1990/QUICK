@@ -247,7 +247,7 @@ subroutine write_basis_info(self, ierr)
         ! -- TODO need to improve this part
         call self%json%create_object(j_curr_atom, "atom_" // trim(basisSetName) // "_" //  self%atom_symbol(iatom))
         
-        ! call self%json%create_object(j_main_electron_shells, "electron_shells")
+        call self%json%create_object(j_main_electron_shells, "electron_shells") ! -- TODO this needs to be an array
 
         ! call self%json%add(j_curr_atom, 'electron_shells', [1,2])
         
@@ -338,12 +338,12 @@ subroutine write_basis_info(self, ierr)
         enddo
         print *, ' Debug> Here'
 
-        
-        call self%json%add( j_curr_atom, j_temp_electron_shell) !-- * add j_temp to atom
+
+        call self%json%add( j_main_electron_shells, j_temp_electron_shell) !-- * j_main_electron_shells
         nullify(j_temp_electron_shell)  !don't need this anymore
 
         ! -- TODO add electron_shells to atom
-        ! call self%json%add( j_curr_atom, j_main_electron_shells) !-- * add electron_shells to atom
+        call self%json%add( j_curr_atom, j_main_electron_shells) !-- * add electron_shells to atom
 
         ! -- TODO add atom to center data
         call self%json%add(j_center_data, j_curr_atom) !-- * add atom to center_data
