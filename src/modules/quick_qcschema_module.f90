@@ -224,6 +224,9 @@ subroutine write_basis_info(self, ierr)
 
     call self%json%add(j_basis, 'description', trim(basisSetName) // " calculation for " // trim(inFileName))
 
+
+
+    
     call self%json%create_object(j_wavefunction,'wavefunction')
     call self%json%add(j_wavefunction, j_basis) !add it to the root
     call self%json%add(self%p, j_wavefunction) !add it to the root
@@ -248,16 +251,7 @@ subroutine write_basis_info(self, ierr)
                     do iprim=1, nprim
                         ishell_idx=quick_basis%ksumtype(ishell)
                         ! write(self%iQCSchemaFile, '(2E20.10)') &
-                        ! quick_basis%gcexpo(iprim,ishell_idx), quick_basis%unnorm_gccoeff(iprim,ishell_idx) 
-                    enddo                    
-                endif
-            endif
-        enddo
-
-        ! -- * s, p basis functions of sp shell
-        do ishell=1, nshell
-            if(quick_basis%katom(ishell) .eq. iatom) then
-                nprim = quick_basis%kprim(ishell)
+                        ! quick_basis%gcexpo(iprim,ishell_idx), quick_basis%unnorm_gccointFileName
                 if(quick_basis%ktype(ishell) .eq. 4) then
                     ! write(self%iQCSchemaFile, '(2x, "s", 4x, I2)') nprim
                     do iprim=1, nprim
