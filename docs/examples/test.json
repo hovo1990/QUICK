@@ -35,7 +35,7 @@
     "basis": {
       "name": "3-21G",
       "filename": "/workspaces/QUICK/install/basis/3-21G.BAS",
-      "description": "TODO-test"
+      "description": "3-21G calculation for /workspaces/QUICK/docs/examples/test.in"
     }
   },
   "success": true

@@ -186,7 +186,7 @@ subroutine write_basis_info(self, ierr)
     use quick_basis_module, only: quick_basis, nshell, nbasis, ncontract
     use quick_method_module, only: quick_method
     use quick_molspec_module, only: natom,quick_molspec
-
+    use quick_files_module, only : iQCSchemaFile, qcSchemaFileName,intFileName,baseinFileName,inFileName 
     use quick_files_module, only : basisSetName,basisfilename
     ! use quick_api_module, only : quick_api
     use json_module
@@ -222,7 +222,7 @@ subroutine write_basis_info(self, ierr)
     
 
 
-    call self%json%add(j_basis, 'description', "TODO-test" )
+    call self%json%add(j_basis, 'description', trim(basisSetName) // " calculation for " // trim(inFileName))
 
     call self%json%create_object(j_wavefunction,'wavefunction')
     call self%json%add(j_wavefunction, j_basis) !add it to the root
