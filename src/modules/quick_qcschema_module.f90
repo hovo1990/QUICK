@@ -266,6 +266,7 @@ subroutine write_basis_info(self, ierr)
         ! -- TODO VIP look at this one: https://github.com/jacobwilliams/json-fortran/issues/237
         ! -- TODO real vip https://github.com/jacobwilliams/json-fortran/issues/202
         call self%json%create_array(e,'electron_shells')
+
         call self%json%create_object(j_temp_electron_shell,'')  ! empty array
 
 
@@ -278,12 +279,13 @@ subroutine write_basis_info(self, ierr)
                 nprim = quick_basis%kprim(ishell)
                 print *, ' Debug> Here'
                 if(quick_basis%ktype(ishell) .eq. 1) then
+                    call self%json%create_object(h,'')
                     ! write(self%iQCSchemaFile, '(2x, "s", 4x, I2)') nprim
                     ! angular_momentum = (/ angular_momentum, 0 /)
                     allocate(coef(0))
                     allocate(expon(0))
 
-                    call self%json%add(j_temp_electron_shell, 'angular_momentum', [0])
+                    call self%json%add(h, 'angular_momentum', [0])
                     do iprim=1, nprim
                         ishell_idx=quick_basis%ksumtype(ishell)
                         temp_coef = quick_basis%unnorm_gccoeff(iprim,ishell_idx) 
@@ -294,11 +296,13 @@ subroutine write_basis_info(self, ierr)
                         ! write(self%iQCSchemaFile, '(2E20.10)') &
                         ! quick_basis%gcexpo(iprim,ishell_idx), quick_basis%unnorm_gccoeff(iprim,ishell_idx) 
                     enddo   
-                    call self%json%add(j_temp_electron_shell, "coefficients", [coef])  
-                    call self%json%add(j_temp_electron_shell, "exponents", expon)   
+                    call self%json%add(h, "coefficients", [coef])  
+                    call self%json%add(h, "exponents", expon)   
 
                     deallocate(coef)
-                    deallocate(expon)             
+                    deallocate(expon)      
+                    call self%json%add( e, h)
+                    nullify(h) !cleanup       
                 endif
             endif
         enddo
@@ -311,12 +315,12 @@ subroutine write_basis_info(self, ierr)
                 if(quick_basis%ktype(ishell) .eq. 4) then
                     ! write(self%iQCSchemaFile, '(2x, "s", 4x, I2)') nprim
                     ! angular_momentum = (/ angular_momentum, 0 /)
-
+                    call self%json%create_object(h,'')
                     allocate(coef(0))
                     allocate(expon(0))
 
 
-                    call self%json%add(j_temp_electron_shell, 'angular_momentum', [0])
+                    call self%json%add(h, 'angular_momentum', [0])
                     do iprim=1, nprim
                         ishell_idx=quick_basis%ksumtype(ishell)
                         ! write(self%iQCSchemaFile, '(2E20.10)') &
@@ -329,17 +333,21 @@ subroutine write_basis_info(self, ierr)
                         expon = (/ expon, temp_expon /)
 
                     enddo
-                    call self%json%add(j_temp_electron_shell, "coefficients", [coef])  
-                    call self%json%add(j_temp_electron_shell, "exponents", expon)   
+                    call self%json%add(h, "coefficients", [coef])  
+                    call self%json%add(h, "exponents", expon)   
 
                     deallocate(coef)
                     deallocate(expon)   
+                    call self%json%add( e, h)
+                    nullify(h)
 
+
+                    call self%json%create_object(h,'')
                     allocate(coef(0))
                     allocate(expon(0))
 
                     ! angular_momentum = (/ angular_momentum, 1 /)
-                    call self%json%add(j_temp_electron_shell, 'angular_momentum', [1])
+                    call self%json%add(h, 'angular_momentum', [1])
                     ! write(self%iQCSchemaFile, '(2x, "p", 4x, I2)') nprim
                     do iprim=1, nprim
                         ishell_idx=quick_basis%ksumtype(ishell)
@@ -351,11 +359,13 @@ subroutine write_basis_info(self, ierr)
                         coef = (/ coef, temp_coef  /)
                         expon = (/ expon, temp_expon /)
                     enddo
-                    call self%json%add(j_temp_electron_shell, "coefficients", [coef])  
-                    call self%json%add(j_temp_electron_shell, "exponents", expon)   
+                    call self%json%add(h, "coefficients", [coef])  
+                    call self%json%add(h, "exponents", expon)   
 
                     deallocate(coef)
-                    deallocate(expon)   
+                    deallocate(expon)  
+                    call self%json%add( e, h)
+                    nullify(h) 
 
                 endif
             endif
@@ -415,7 +425,7 @@ subroutine write_basis_info(self, ierr)
 
 
         ! -- TODO this is not good
-        call self%json%add( e, j_temp_electron_shell)
+        ! call self%json%add( e, j_temp_electron_shell)
 
         ! call self%json%add( j_main_electron_shells, e) !-- * add j_temp_electron_shell to j_main_electron_shells
         nullify(j_temp_electron_shell)  !don't need this anymore
