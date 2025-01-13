@@ -198,6 +198,10 @@ subroutine write_basis_info(self, ierr)
     logical :: print_gto
     double precision :: val_gccoeff, xnorm
 
+    real :: temp_coef, temp_expon
+    real, allocatable :: coef(:)
+    real, allocatable :: expon(:)
+
 
     ! -- ! Example: https://github.com/MolSSI/QCSchema/blob/master/tests/wavefunction/water_output_v3.json
     type(json_value),pointer :: j_wavefunction
@@ -258,7 +262,7 @@ subroutine write_basis_info(self, ierr)
 
         ! -- TODO define arrays for each atom,
         ! -- TODO add these dynamic arrays for these values: angular_momentum, exponents, coefficients
-
+ 
         ! -- * s basis functions
         do ishell=1, nshell
             if(quick_basis%katom(ishell) .eq. iatom) then
@@ -267,12 +271,25 @@ subroutine write_basis_info(self, ierr)
                 if(quick_basis%ktype(ishell) .eq. 1) then
                     ! write(self%iQCSchemaFile, '(2x, "s", 4x, I2)') nprim
                     ! angular_momentum = (/ angular_momentum, 0 /)
+                    allocate(coef(0))
+                    allocate(expon(0))
+
                     call self%json%add(j_temp_electron_shell, 'angular_momentum', [0])
                     do iprim=1, nprim
                         ishell_idx=quick_basis%ksumtype(ishell)
+                        temp_coef = quick_basis%unnorm_gccoeff(iprim,ishell_idx) 
+                        temp_expon = quick_basis%gcexpo(iprim,ishell_idx)
+                        print *, ' Debug> Here'
+                        coef = (/ coef, temp_coef  /)
+                        expon = (/ expon, temp_expon /)
                         ! write(self%iQCSchemaFile, '(2E20.10)') &
                         ! quick_basis%gcexpo(iprim,ishell_idx), quick_basis%unnorm_gccoeff(iprim,ishell_idx) 
-                    enddo                    
+                    enddo   
+                    call self%json%add(j_temp_electron_shell, "coefficients", coef)  
+                    call self%json%add(j_temp_electron_shell, "exponents", expon)   
+
+                    deallocate(coef)
+                    deallocate(expon)             
                 endif
             endif
         enddo
@@ -285,12 +302,33 @@ subroutine write_basis_info(self, ierr)
                 if(quick_basis%ktype(ishell) .eq. 4) then
                     ! write(self%iQCSchemaFile, '(2x, "s", 4x, I2)') nprim
                     ! angular_momentum = (/ angular_momentum, 0 /)
+
+                    allocate(coef(0))
+                    allocate(expon(0))
+
+
                     call self%json%add(j_temp_electron_shell, 'angular_momentum', [0])
                     do iprim=1, nprim
                         ishell_idx=quick_basis%ksumtype(ishell)
                         ! write(self%iQCSchemaFile, '(2E20.10)') &
                         ! quick_basis%gcexpo(iprim,ishell_idx), quick_basis%unnorm_gccoeff(iprim,ishell_idx)
+
+                        temp_coef = quick_basis%unnorm_gccoeff(iprim,ishell_idx)
+                        temp_expon = quick_basis%gcexpo(iprim,ishell_idx)
+                        print *, ' Debug> Here'
+                        coef = (/ coef, temp_coef  /)
+                        expon = (/ expon, temp_expon /)
+
                     enddo
+                    call self%json%add(j_temp_electron_shell, "coefficients", coef)  
+                    call self%json%add(j_temp_electron_shell, "exponents", expon)   
+
+                    deallocate(coef)
+                    deallocate(expon)   
+
+                    allocate(coef(0))
+                    allocate(expon(0))
+
                     ! angular_momentum = (/ angular_momentum, 1 /)
                     call self%json%add(j_temp_electron_shell, 'angular_momentum', [1])
                     ! write(self%iQCSchemaFile, '(2x, "p", 4x, I2)') nprim
@@ -298,7 +336,18 @@ subroutine write_basis_info(self, ierr)
                         ishell_idx=quick_basis%ksumtype(ishell)
                         ! write(self%iQCSchemaFile, '(2E20.10)') &
                         ! quick_basis%gcexpo(iprim,ishell_idx), (quick_basis%unnorm_gccoeff(iprim,ishell_idx+1))
+                        temp_coef = quick_basis%unnorm_gccoeff(iprim,ishell_idx+1)
+                        temp_expon = quick_basis%gcexpo(iprim,ishell_idx)
+                        print *, ' Debug> Here'
+                        coef = (/ coef, temp_coef  /)
+                        expon = (/ expon, temp_expon /)
                     enddo
+                    call self%json%add(j_temp_electron_shell, "coefficients", coef)  
+                    call self%json%add(j_temp_electron_shell, "exponents", expon)   
+
+                    deallocate(coef)
+                    deallocate(expon)   
+
                 endif
             endif
         enddo
@@ -325,13 +374,30 @@ subroutine write_basis_info(self, ierr)
                     ! write(self%iQCSchemaFile, '(2x, "f", 4x, I2)') nprim
                 endif
                 
+ 
                 do iprim=1, nprim
                     if(print_gto) then
                         ishell_idx=quick_basis%ksumtype(ishell)
+
+
                         ! write(self%iQCSchemaFile, '(2E20.10)') &
                         ! quick_basis%gcexpo(iprim,ishell_idx), quick_basis%unnorm_gccoeff(iprim,ishell_idx)
+                        allocate(coef(0))
+                        allocate(expon(0))
+                        
+                        temp_coef = quick_basis%unnorm_gccoeff(iprim,ishell_idx)
+                        temp_expon = quick_basis%gcexpo(iprim,ishell_idx)
+                        print *, ' Debug> Here'
+                        coef = (/ coef, temp_coef  /)
+                        expon = (/ expon, temp_expon /)
+                        call self%json%add(j_temp_electron_shell, "coefficients", coef)  
+                        call self%json%add(j_temp_electron_shell, "exponents", expon)   
+        
+                        deallocate(coef)
+                        deallocate(expon)   
                     endif
                 enddo
+
             endif
             
 
