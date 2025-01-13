@@ -27,7 +27,8 @@
     "basis": {
       "name": "6-31G",
       "filename": "/workspaces/QUICK/install/basis/6-31G.BAS",
-      "description": "6-31G calculation for /workspaces/QUICK/docs/examples/test2.in"
+      "description": "6-31G calculation for /workspaces/QUICK/docs/examples/test2.in",
+      "center_data": {}
     }
   },
   "success": true

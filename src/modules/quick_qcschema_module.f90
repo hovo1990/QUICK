@@ -203,8 +203,8 @@ subroutine write_basis_info(self, ierr)
     type(json_value),pointer :: j_wavefunction
     type(json_value),pointer :: j_basis
     type(json_value),pointer :: j_center_data
-    type(json_value),pointer :: j_temp_atom_shell
-    type(json_value),pointer :: j_electron_shells
+    type(json_value),pointer :: j_temp_electron_shell
+    type(json_value),pointer :: j_main_electron_shells
 
     ! -- TODO arrays for angular_momentum, exponents, coefficients
     integer, allocatable :: angular_momentum(:) 
@@ -227,9 +227,14 @@ subroutine write_basis_info(self, ierr)
 
     call self%json%add(j_basis, 'description', trim(basisSetName) // " calculation for " // trim(inFileName))
 
+    call self%json%create_object(j_center_data,'center_data')
     call self%json%create_object(j_wavefunction,'wavefunction')
-    call self%json%add(j_wavefunction, j_basis) !add it to the root
-    call self%json%add(self%p, j_wavefunction) !add it to the root
+
+
+    call self%json%add(j_basis,j_center_data) !-- * add center_data to basis
+
+    call self%json%add(j_wavefunction, j_basis) !add basis to wavefunction section
+    call self%json%add(self%p, j_wavefunction) !add wavefunction section to the main structure
 
 
 
