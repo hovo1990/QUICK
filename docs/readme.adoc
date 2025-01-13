@@ -47,6 +47,9 @@ cd /workspaces/QUICK/docs/examples
 export QUICK_BASIS=/workspaces/QUICK/install/basis
 /workspaces/QUICK/install/bin/quick.cuda meth_qcschema.xyz
 
+
+/workspaces/QUICK/install/bin/quick.cuda test.in
+
 /workspaces/QUICK/install/bin/quick meth_qcschema.xyz
 
 
