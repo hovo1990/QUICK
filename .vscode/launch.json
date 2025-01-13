@@ -25,11 +25,11 @@
         // "args": ["${workspaceFolder}/docs/examples/meth_molden.xyz"], // Possible input molden for quick.cuda
         "args": ["${workspaceFolder}/docs/examples/meth_qcschema.xyz"], // -- * for geometry optimization
         // "args": ["${workspaceFolder}/docs/examples/meth_qcschema_noptim.xyz"], // -- * for geometry optimization
-        "env": { "QUICK_BASIS" : "${workspaceFolder}/install/basisinstall/basis"},  //-- ! Buggy Replace "value_here" with the desired value
-        
+        // "env": { "QUICK_BASIS" : "${workspaceFolder}/install/basisinstall/basis"},  //-- ! Buggy Replace "value_here" with the desired value
+        "env": { "QUICK_BASIS" : "${workspaceFolder}/install/basis"},  //-- ! Buggy Replace "value_here" with the desired value
         // -- ! cuda-gdb suggested fix https://forums.developer.nvidia.com/t/vscode-debug-matrixmul-example-fails-with-cuda-driver-has-hit-an-internal-error/239437/2
         // "envFile": "${workspaceFolder}/vscode_var_env.env",
-        
+
         "stopAtEntry": false,
         "cwd": "${workspaceFolder}",
         

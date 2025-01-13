@@ -40,6 +40,16 @@ make -j16 install VERBOSE=1
 make -j16 install
 
 
+
+#-- * test running locally basis set is not being setup, weird
+
+cd /workspaces/QUICK/docs/examples
+export QUICK_BASIS=/workspaces/QUICK/install/basis
+/workspaces/QUICK/install/bin/quick.cuda meth_qcschema.xyz
+
+/workspaces/QUICK/install/bin/quick meth_qcschema.xyz
+
+
 #-- Enter running vs code container
 
 docker exec -it <mycontainer> bash
