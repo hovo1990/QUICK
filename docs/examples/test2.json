@@ -29,9 +29,45 @@
       "filename": "/workspaces/QUICK/install/basis/6-31G.BAS",
       "description": "6-31G calculation for /workspaces/QUICK/docs/examples/test2.in",
       "center_data": {
-        "atom_6-31G_O": {},
-        "atom_6-31G_H": {},
-        "atom_6-31G_H": {}
+        "atom_6-31G_O": {
+          "": {
+            "angular_momentum": [
+              0
+            ],
+            "angular_momentum": [
+              0
+            ],
+            "angular_momentum": [
+              1
+            ],
+            "angular_momentum": [
+              0
+            ],
+            "angular_momentum": [
+              1
+            ]
+          }
+        },
+        "atom_6-31G_H": {
+          "": {
+            "angular_momentum": [
+              0
+            ],
+            "angular_momentum": [
+              0
+            ]
+          }
+        },
+        "atom_6-31G_H": {
+          "": {
+            "angular_momentum": [
+              0
+            ],
+            "angular_momentum": [
+              0
+            ]
+          }
+        }
       }
     }
   },

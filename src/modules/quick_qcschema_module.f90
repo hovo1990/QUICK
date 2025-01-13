@@ -246,12 +246,19 @@ subroutine write_basis_info(self, ierr)
 
         ! -- TODO need to improve this part
         call self%json%create_object(j_curr_atom, "atom_" // trim(basisSetName) // "_" //  self%atom_symbol(iatom))
-
-
         
+        ! call self%json%create_object(j_main_electron_shells, "electron_shells")
+
+        ! call self%json%add(j_curr_atom, 'electron_shells', [1,2])
+        
+
+        ! -- * initialize the structure:
+        call self%json%create_object(j_temp_electron_shell,'')
+
+
         ! -- TODO define arrays for each atom,
         ! -- TODO add these dynamic arrays for these values: angular_momentum, exponents, coefficients
-        allocate(angular_momentum(0))
+
         ! -- * s basis functions
         do ishell=1, nshell
             if(quick_basis%katom(ishell) .eq. iatom) then
@@ -259,7 +266,8 @@ subroutine write_basis_info(self, ierr)
                 print *, ' Debug> Here'
                 if(quick_basis%ktype(ishell) .eq. 1) then
                     ! write(self%iQCSchemaFile, '(2x, "s", 4x, I2)') nprim
-                    angular_momentum = (/ angular_momentum, 0 /)
+                    ! angular_momentum = (/ angular_momentum, 0 /)
+                    call self%json%add(j_temp_electron_shell, 'angular_momentum', [0])
                     do iprim=1, nprim
                         ishell_idx=quick_basis%ksumtype(ishell)
                         ! write(self%iQCSchemaFile, '(2E20.10)') &
@@ -276,13 +284,15 @@ subroutine write_basis_info(self, ierr)
                 nprim = quick_basis%kprim(ishell)
                 if(quick_basis%ktype(ishell) .eq. 4) then
                     ! write(self%iQCSchemaFile, '(2x, "s", 4x, I2)') nprim
-                    angular_momentum = (/ angular_momentum, 0 /)
+                    ! angular_momentum = (/ angular_momentum, 0 /)
+                    call self%json%add(j_temp_electron_shell, 'angular_momentum', [0])
                     do iprim=1, nprim
                         ishell_idx=quick_basis%ksumtype(ishell)
                         ! write(self%iQCSchemaFile, '(2E20.10)') &
                         ! quick_basis%gcexpo(iprim,ishell_idx), quick_basis%unnorm_gccoeff(iprim,ishell_idx)
                     enddo
-                    angular_momentum = (/ angular_momentum, 1 /)
+                    ! angular_momentum = (/ angular_momentum, 1 /)
+                    call self%json%add(j_temp_electron_shell, 'angular_momentum', [1])
                     ! write(self%iQCSchemaFile, '(2x, "p", 4x, I2)') nprim
                     do iprim=1, nprim
                         ishell_idx=quick_basis%ksumtype(ishell)
@@ -300,15 +310,18 @@ subroutine write_basis_info(self, ierr)
                 print_gto=.false.
                 if(quick_basis%ktype(ishell) .eq. 3) then
                     print_gto=.true.
-                    angular_momentum = (/ angular_momentum, 1 /)
+                    ! angular_momentum = (/ angular_momentum, 1 /)
+                    call self%json%add(j_temp_electron_shell, 'angular_momentum', [1])
                     ! write(self%iQCSchemaFile, '(2x, "p", 4x, I2)') nprim
                 elseif(quick_basis%ktype(ishell) .eq. 6) then
                     print_gto=.true.
-                    angular_momentum = (/ angular_momentum, 2 /)
+                    ! angular_momentum = (/ angular_momentum, 2 /)
+                    call self%json%add(j_temp_electron_shell, 'angular_momentum', [2])
                     ! write(self%iQCSchemaFile, '(2x, "d", 4x, I2)') nprim
                 elseif(quick_basis%ktype(ishell) .eq. 10) then
                     print_gto=.true.
-                    angular_momentum = (/ angular_momentum, 3 /)
+                    ! angular_momentum = (/ angular_momentum, 3 /)
+                    call self%json%add(j_temp_electron_shell, 'angular_momentum', [3])
                     ! write(self%iQCSchemaFile, '(2x, "f", 4x, I2)') nprim
                 endif
                 
@@ -320,14 +333,18 @@ subroutine write_basis_info(self, ierr)
                     endif
                 enddo
             endif
-
+            
 
         enddo
         print *, ' Debug> Here'
-        ! angular_momentum=0
-        deallocate(angular_momentum)
-        ! write(self%iQCSchemaFile, '("")')
+
         
+        call self%json%add( j_curr_atom, j_temp_electron_shell) !-- * add j_temp to atom
+        nullify(j_temp_electron_shell)  !don't need this anymore
+
+        ! -- TODO add electron_shells to atom
+        ! call self%json%add( j_curr_atom, j_main_electron_shells) !-- * add electron_shells to atom
+
         ! -- TODO add atom to center data
         call self%json%add(j_center_data, j_curr_atom) !-- * add atom to center_data
     enddo
