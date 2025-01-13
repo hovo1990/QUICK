@@ -206,6 +206,9 @@ subroutine write_basis_info(self, ierr)
     type(json_value),pointer :: j_temp_atom_shell
     type(json_value),pointer :: j_electron_shells
 
+    ! -- TODO arrays for angular_momentum, exponents, coefficients
+    integer, allocatable :: angular_momentum(:) 
+
 
     print *, ' Debug> Here'
     ! -- * write basis function information
@@ -232,12 +235,14 @@ subroutine write_basis_info(self, ierr)
 
 
 
+
+
     ! write(self%iQCSchemaFile, '("[GTO] (AU)")')
     do iatom=1, natom
         ! write(self%iQCSchemaFile, '(2x, I5)') iatom
 
         ! -- TODO define arrays for each atom,
-        ! -- TODO add these dynamic arrays for these values: angular_momentrum, exponents, coefficients
+        ! -- TODO add these dynamic arrays for these values: angular_momentum, exponents, coefficients
         
         ! -- * s basis functions
         do ishell=1, nshell
@@ -246,6 +251,7 @@ subroutine write_basis_info(self, ierr)
                 print *, ' Debug> Here'
                 if(quick_basis%ktype(ishell) .eq. 1) then
                     ! write(self%iQCSchemaFile, '(2x, "s", 4x, I2)') nprim
+                    angular_momentum = (/ angular_momentum, 0 /)
                     do iprim=1, nprim
                         ishell_idx=quick_basis%ksumtype(ishell)
                         ! write(self%iQCSchemaFile, '(2E20.10)') &
@@ -255,17 +261,20 @@ subroutine write_basis_info(self, ierr)
             endif
         enddo
 
+        print *, ' Debug> Here'
         ! -- * s, p basis functions of sp shell
         do ishell=1, nshell
             if(quick_basis%katom(ishell) .eq. iatom) then
                 nprim = quick_basis%kprim(ishell)
                 if(quick_basis%ktype(ishell) .eq. 4) then
                     ! write(self%iQCSchemaFile, '(2x, "s", 4x, I2)') nprim
+                    angular_momentum = (/ angular_momentum, 0 /)
                     do iprim=1, nprim
                         ishell_idx=quick_basis%ksumtype(ishell)
                         ! write(self%iQCSchemaFile, '(2E20.10)') &
                         ! quick_basis%gcexpo(iprim,ishell_idx), quick_basis%unnorm_gccoeff(iprim,ishell_idx)
                     enddo
+                    angular_momentum = (/ angular_momentum, 1 /)
                     ! write(self%iQCSchemaFile, '(2x, "p", 4x, I2)') nprim
                     do iprim=1, nprim
                         ishell_idx=quick_basis%ksumtype(ishell)
@@ -283,12 +292,15 @@ subroutine write_basis_info(self, ierr)
                 print_gto=.false.
                 if(quick_basis%ktype(ishell) .eq. 3) then
                     print_gto=.true.
+                    angular_momentum = (/ angular_momentum, 1 /)
                     ! write(self%iQCSchemaFile, '(2x, "p", 4x, I2)') nprim
                 elseif(quick_basis%ktype(ishell) .eq. 6) then
                     print_gto=.true.
+                    angular_momentum = (/ angular_momentum, 2 /)
                     ! write(self%iQCSchemaFile, '(2x, "d", 4x, I2)') nprim
                 elseif(quick_basis%ktype(ishell) .eq. 10) then
                     print_gto=.true.
+                    angular_momentum = (/ angular_momentum, 3 /)
                     ! write(self%iQCSchemaFile, '(2x, "f", 4x, I2)') nprim
                 endif
                 
@@ -304,6 +316,7 @@ subroutine write_basis_info(self, ierr)
 
         ! write(self%iQCSchemaFile, '("")')
     enddo
+    print *, ' Debug> Here'
 
 end subroutine write_basis_info
 
