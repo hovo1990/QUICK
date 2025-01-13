@@ -201,7 +201,8 @@ subroutine write_basis_info(self, ierr)
     real :: temp_coef, temp_expon
     real, allocatable :: coef(:)
     real, allocatable :: expon(:)
-    character(len=20),  allocatable :: atom_map_to_use(:)  ! Array of 3 strings, each of length 10
+
+    character(len=20), dimension(:), allocatable :: lines
 
 
     ! -- ! Example: https://github.com/MolSSI/QCSchema/blob/master/tests/wavefunction/water_output_v3.json
@@ -249,13 +250,18 @@ subroutine write_basis_info(self, ierr)
 
 
 
+    ! Allocate the array initially with a small size
+    ! -- TODO https://craftofcoding.wordpress.com/tag/fortran-variable-length-array-of-strings/
+    allocate(lines(natom))
+
 
     ! write(self%iQCSchemaFile, '("[GTO] (AU)")')
     do iatom=1, natom
         ! write(self%iQCSchemaFile, '(2x, I5)') iatom
 
-        ! allocate(atom_map_to_use(0)) 
-        ! atom_map_to_use = (/ atom_map_to_use, "atom_" // trim(basisSetName) // "_" //  self%atom_symbol(iatom) /)
+
+        lines(iatom) =  trim("atom_" // trim(basisSetName) // "_" //  self%atom_symbol(iatom))
+
         ! atom_map_to_use = (/ atom_map_to_use, 'testYO' /)
 
         ! -- TODO need to improve this part
@@ -452,13 +458,13 @@ subroutine write_basis_info(self, ierr)
     call self%json%add(j_basis,j_center_data) !-- * add center_data to basis
 
     ! call self%json%add(j_basis,j_atom_map_to_use) !-- * add center_data to basis
-    call self%json%add(j_basis, 'atom_map', ['test1','test2'])
+    call self%json%add(j_basis, 'atom_map', lines)
 
 
     call self%json%add(j_wavefunction, j_basis) !add basis to wavefunction section
     call self%json%add(self%p, j_wavefunction) !add wavefunction section to the main structure
 
-    ! deallocate(atom_map_to_use)  
+    deallocate(lines)  
 
 end subroutine write_basis_info
 
