@@ -203,6 +203,7 @@ subroutine write_basis_info(self, ierr)
     type(json_value),pointer :: j_wavefunction
     type(json_value),pointer :: j_basis
     type(json_value),pointer :: j_center_data
+    type(json_value),pointer :: j_curr_atom
     type(json_value),pointer :: j_temp_electron_shell
     type(json_value),pointer :: j_main_electron_shells
 
@@ -228,13 +229,10 @@ subroutine write_basis_info(self, ierr)
     call self%json%add(j_basis, 'description', trim(basisSetName) // " calculation for " // trim(inFileName))
 
     call self%json%create_object(j_center_data,'center_data')
+
     call self%json%create_object(j_wavefunction,'wavefunction')
 
 
-    call self%json%add(j_basis,j_center_data) !-- * add center_data to basis
-
-    call self%json%add(j_wavefunction, j_basis) !add basis to wavefunction section
-    call self%json%add(self%p, j_wavefunction) !add wavefunction section to the main structure
 
 
 
@@ -246,9 +244,14 @@ subroutine write_basis_info(self, ierr)
     do iatom=1, natom
         ! write(self%iQCSchemaFile, '(2x, I5)') iatom
 
+        ! -- TODO need to improve this part
+        call self%json%create_object(j_curr_atom, "atom_" // trim(basisSetName) // "_" //  self%atom_symbol(iatom))
+
+
+        
         ! -- TODO define arrays for each atom,
         ! -- TODO add these dynamic arrays for these values: angular_momentum, exponents, coefficients
-        
+        allocate(angular_momentum(0))
         ! -- * s basis functions
         do ishell=1, nshell
             if(quick_basis%katom(ishell) .eq. iatom) then
@@ -317,11 +320,25 @@ subroutine write_basis_info(self, ierr)
                     endif
                 enddo
             endif
-        enddo
 
+
+        enddo
+        print *, ' Debug> Here'
+        ! angular_momentum=0
+        deallocate(angular_momentum)
         ! write(self%iQCSchemaFile, '("")')
+        
+        ! -- TODO add atom to center data
+        call self%json%add(j_center_data, j_curr_atom) !-- * add atom to center_data
     enddo
-    print *, ' Debug> Here'
+
+    ! -- TODO append to the main structure
+    call self%json%add(j_basis,j_center_data) !-- * add center_data to basis
+
+    call self%json%add(j_wavefunction, j_basis) !add basis to wavefunction section
+    call self%json%add(self%p, j_wavefunction) !add wavefunction section to the main structure
+
+
 
 end subroutine write_basis_info
 
