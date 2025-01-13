@@ -30,8 +30,8 @@
       "description": "6-31G calculation for /workspaces/QUICK/docs/examples/test2.in",
       "center_data": {
         "atom_6-31G_O": {
-          "electron_shells": {
-            "": {
+          "electron_shells": [
+            {
               "angular_momentum": [
                 0
               ],
@@ -96,11 +96,11 @@
                 0.27000582218170166E+0
               ]
             }
-          }
+          ]
         },
         "atom_6-31G_H": {
-          "electron_shells": {
-            "": {
+          "electron_shells": [
+            {
               "angular_momentum": [
                 0
               ],
@@ -124,11 +124,11 @@
                 0.16127775609493256E+0
               ]
             }
-          }
+          ]
         },
         "atom_6-31G_H": {
-          "electron_shells": {
-            "": {
+          "electron_shells": [
+            {
               "angular_momentum": [
                 0
               ],
@@ -152,7 +152,7 @@
                 0.16127775609493256E+0
               ]
             }
-          }
+          ]
         }
       }
     }

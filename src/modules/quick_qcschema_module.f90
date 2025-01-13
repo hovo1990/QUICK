@@ -211,6 +211,8 @@ subroutine write_basis_info(self, ierr)
     type(json_value),pointer :: j_temp_electron_shell
     type(json_value),pointer :: j_main_electron_shells
 
+    type(json_value),pointer :: h,e
+
     ! -- TODO arrays for angular_momentum, exponents, coefficients
     integer, allocatable :: angular_momentum(:) 
 
@@ -263,7 +265,8 @@ subroutine write_basis_info(self, ierr)
 
         ! -- TODO VIP look at this one: https://github.com/jacobwilliams/json-fortran/issues/237
         ! -- TODO real vip https://github.com/jacobwilliams/json-fortran/issues/202
-        call self%json%create_array(j_temp_electron_shell,'')  ! empty array
+        call self%json%create_array(e,'electron_shells')
+        call self%json%create_object(j_temp_electron_shell,'')  ! empty array
 
 
         ! -- TODO define arrays for each atom,
@@ -412,11 +415,15 @@ subroutine write_basis_info(self, ierr)
 
 
         ! -- TODO this is not good
-        call self%json%add( j_main_electron_shells, j_temp_electron_shell) !-- * add j_temp_electron_shell to j_main_electron_shells
+        call self%json%add( e, j_temp_electron_shell)
+
+        ! call self%json%add( j_main_electron_shells, e) !-- * add j_temp_electron_shell to j_main_electron_shells
         nullify(j_temp_electron_shell)  !don't need this anymore
 
         ! -- TODO add electron_shells to atom
-        call self%json%add( j_curr_atom, j_main_electron_shells) !-- * add electron_shells to atom
+        ! call self%json%add( j_curr_atom, j_main_electron_shells) !-- * add electron_shells to atom
+        
+        call self%json%add( j_curr_atom, e) !-- * add electron_shells to atom
 
         ! -- TODO add atom to center data
         call self%json%add(j_center_data, j_curr_atom) !-- * add atom to center_data
