@@ -222,7 +222,7 @@ subroutine write_basis_info(self, ierr)
     
 
 
-    call self%json%add(j_basis, 'description', "TODO" )
+    call self%json%add(j_basis, 'description', "TODO-test" )
 
     call self%json%create_object(j_wavefunction,'wavefunction')
     call self%json%add(j_wavefunction, j_basis) !add it to the root
