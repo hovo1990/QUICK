@@ -492,6 +492,9 @@ subroutine write_mo(self, ierr)
     character(len=5) :: lbl1
     double precision :: occnum, occval
 
+    ! -- TODO triciker https://github.com/MolSSI/QCElemental/blob/d126163bcef7558227cf63ee161c7c3354029f45/qcelemental/models/results.py#L32
+    ! -- TODO https://github.com/MolSSI/QCElemental/blob/qcschema-examples/AtomicResult/test_result_build_wavefunction_delete.json
+
     if(.not. allocated(self%reord_mo_vec)) allocate(self%reord_mo_vec(nbasis))
 
     write(self%iQCSchemaFile, '("[MO]")')
