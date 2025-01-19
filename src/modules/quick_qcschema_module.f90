@@ -202,8 +202,8 @@ subroutine write_basis_info(self, ierr)
     real, allocatable :: coef(:)
     real, allocatable :: expon(:)
 
-    character(len=20), dimension(:), allocatable :: lines
-
+    character(len=6), dimension(:), allocatable :: lines
+    ! character(len=:), allocatable :: lines(:)  ! Allocatable array of strings
 
     ! -- ! Example: https://github.com/MolSSI/QCSchema/blob/master/tests/wavefunction/water_output_v3.json
     type(json_value),pointer :: j_wavefunction
@@ -253,6 +253,7 @@ subroutine write_basis_info(self, ierr)
     ! Allocate the array initially with a small size
     ! -- TODO https://craftofcoding.wordpress.com/tag/fortran-variable-length-array-of-strings/
     allocate(lines(natom))
+    ! allocate(character(len=6) :: lines(natom))
 
 
     ! write(self%iQCSchemaFile, '("[GTO] (AU)")')
@@ -260,12 +261,13 @@ subroutine write_basis_info(self, ierr)
         ! write(self%iQCSchemaFile, '(2x, I5)') iatom
 
 
-        lines(iatom) =  trim("atom_" // trim(basisSetName) // "_" //  trim(self%atom_symbol(iatom)))
+
+        lines(iatom) =  trim("atom_" //  trim(self%atom_symbol(iatom)))
 
         ! atom_map_to_use = (/ atom_map_to_use, 'testYO' /)
 
         ! -- TODO need to improve this part
-        call self%json%create_object(j_curr_atom, trim("atom_" // trim(basisSetName) // "_" //  trim(self%atom_symbol(iatom))))
+        call self%json%create_object(j_curr_atom, trim("atom_"  //  trim(self%atom_symbol(iatom))))
         
         call self%json%create_object(j_main_electron_shells, "electron_shells") ! -- TODO this needs to be an array
 

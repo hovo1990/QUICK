@@ -29,7 +29,7 @@
       "filename": "/workspaces/QUICK/install/basis/6-31G.BAS",
       "description": "6-31G calculation for /workspaces/QUICK/docs/examples/test2.in",
       "center_data": {
-        "atom_6-31G_O": {
+        "atom_O": {
           "electron_shells": [
             {
               "angular_momentum": [
@@ -106,7 +106,7 @@
             }
           ]
         },
-        "atom_6-31G_H": {
+        "atom_H": {
           "electron_shells": [
             {
               "angular_momentum": [
@@ -136,7 +136,7 @@
             }
           ]
         },
-        "atom_6-31G_H": {
+        "atom_H": {
           "electron_shells": [
             {
               "angular_momentum": [
@@ -168,9 +168,9 @@
         }
       },
       "atom_map": [
-        "atom_6-31G_O        ",
-        "atom_6-31G_H        ",
-        "atom_6-31G_H        "
+        "atom_O",
+        "atom_H",
+        "atom_H"
       ]
     }
   },
