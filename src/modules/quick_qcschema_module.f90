@@ -202,6 +202,7 @@ subroutine write_basis_info(self, ierr)
     real, allocatable :: coef(:)
     real, allocatable :: expon(:)
 
+    ! -- ? ASK how to do dynamic string
     character(len=4), dimension(:), allocatable :: lines
     ! character(len=:), allocatable :: lines(:)  ! Allocatable array of strings
 
