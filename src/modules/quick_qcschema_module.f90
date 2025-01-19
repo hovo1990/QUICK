@@ -202,7 +202,7 @@ subroutine write_basis_info(self, ierr)
     real, allocatable :: coef(:)
     real, allocatable :: expon(:)
 
-    character(len=6), dimension(:), allocatable :: lines
+    character(len=4), dimension(:), allocatable :: lines
     ! character(len=:), allocatable :: lines(:)  ! Allocatable array of strings
 
     ! -- ! Example: https://github.com/MolSSI/QCSchema/blob/master/tests/wavefunction/water_output_v3.json
@@ -262,12 +262,12 @@ subroutine write_basis_info(self, ierr)
 
 
 
-        lines(iatom) =  trim("atom_" //  trim(self%atom_symbol(iatom)))
+        lines(iatom) =  trim("bs_" //  trim(self%atom_symbol(iatom)))
 
         ! atom_map_to_use = (/ atom_map_to_use, 'testYO' /)
 
         ! -- TODO need to improve this part
-        call self%json%create_object(j_curr_atom, trim("atom_"  //  trim(self%atom_symbol(iatom))))
+        call self%json%create_object(j_curr_atom, trim("bs_"  //  trim(self%atom_symbol(iatom))))
         
         call self%json%create_object(j_main_electron_shells, "electron_shells") ! -- TODO this needs to be an array
 
