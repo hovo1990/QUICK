@@ -92,3 +92,10 @@ https://github.com/MolSSI/QCSchema/issues/68
 https://github.com/MolSSI/QCElemental
 
 https://github.com/MolSSI/QCElemental/pull/287
+
+
+
+#VIP
+
+
+https://www.basissetexchange.org/
