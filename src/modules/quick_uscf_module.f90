@@ -922,8 +922,8 @@ contains
 #endif
         !if (quick_method%debug)  call debug_SCF(jscf)
      enddo
-  
-#if (defined CUDA || defined CUDA_MPIV) && !defined(HIP)
+
+
      if(master .and. write_molden) then
          quick_molden%nscf_snapshots(quick_molden%iexport_snapshot)=jscf
      endif  
@@ -931,6 +931,9 @@ contains
      if(master .and. write_qcschema) then
          quick_qcschema%nscf_snapshots(quick_qcschema%iexport_snapshot)=jscf
      endif  
+
+#if (defined CUDA || defined CUDA_MPIV) && !defined(HIP)
+
 
      ! sign of the coefficient matrix resulting from cusolver is not consistent
      ! with rest of the code (e.g. gradients). We have to correct this.
